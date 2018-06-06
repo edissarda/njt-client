@@ -5,11 +5,12 @@ import { DataTable } from 'primereact/components/datatable/DataTable';
 import { Column } from 'primereact/components/column/Column';
 import { Button } from 'primereact/components/button/Button';
 import { Growl } from 'primereact/components/growl/Growl';
-import { Toolbar } from 'primereact/components/toolbar/Toolbar';
 import { Dialog } from 'primereact/components/dialog/Dialog';
+import { loadingIcon } from './../common/loading';
+import { createIcon, editIcon, deleteIcon, refreshIcon } from './../common/icons';
+import { InputText } from 'primereact/components/inputtext/InputText';
 
-
-
+import IzmenaZvanja from './IzmenaZvanja';
 
 class ListaZvanja extends Component {
 
@@ -20,6 +21,7 @@ class ListaZvanja extends Component {
             isModalOpen: false,
         },
         selektovanoZvanje: null,
+        pretragaFilter: null,
     }
 
     componentWillMount() {
@@ -32,6 +34,12 @@ class ListaZvanja extends Component {
         }).catch(error => {
             console.log('Greska ' + error);
             this.setState({ hasError: true });
+        });
+    }
+
+    deselektujZvanje = () => {
+        this.setState({
+            selektovanoZvanje: null,
         });
     }
 
@@ -53,8 +61,11 @@ class ListaZvanja extends Component {
         this.showMessage('Звање ' + zvanje.naziv + ' је успешно креирано.');
     }
 
+
+
     zvanjeDeleted = () => {
         this.ucitajZvanja();
+        this.deselektujZvanje();
     }
 
     openCreateZvanjeModal = () => {
@@ -69,8 +80,6 @@ class ListaZvanja extends Component {
         this.setState({
             modal: {
                 isModalOpen: true,
-                content: text,
-                center: false,
             }
         });
     }
@@ -87,7 +96,7 @@ class ListaZvanja extends Component {
 
     obrisiZvanje = () => {
         if (this.state.selektovanoZvanje == null) {
-            this.showModal('Изаберите звање.');
+            this.showMessage('Изаберите звање које желите да обришете', '', 'warn');
             return false;
         }
 
@@ -108,15 +117,15 @@ class ListaZvanja extends Component {
 
     izmeniZvanje = () => {
         if (this.state.selektovanoZvanje == null) {
-            console.log('izaberi zvanje');
+            this.showMessage('Изаберите звање које желите да измените', '', 'warn')
             return false;
         }
 
-        const zvanje = {
-            ...this.state.selektovanoZvanje
-        }
-
-        console.log('forma za izmenu zvanja: ' + zvanje.naziv);
+        this.setState({
+            modal: {
+                prikaziModalIzmeniZvanje: true,
+            }
+        });
     }
 
     azurirajZvanje = (zvanje) => {
@@ -130,31 +139,59 @@ class ListaZvanja extends Component {
         });
     }
 
-    selektujZvanje = async (e) => {
-        await this.setState({
-            selektovanoZvanje: e.data
+    selektujZvanje = (e) => {
+        this.setState({
+            selektovanoZvanje: e.data,
         });
+    }
+
+    getTableHeader = () => {
+        return (
+            <div style={{ position: 'relative' }}>
+                <div className="pull-left">
+                    <Button label="" className="ui-button-primary" onClick={this.ucitajZvanja}>
+                        {refreshIcon}
+                    </Button>
+
+                    <Button label="" className="ui-button-success" onClick={this.openCreateZvanjeModal}>
+                        {createIcon}
+                    </Button>
+
+                    <Button label="" className="ui-button-warning" onClick={this.izmeniZvanje}>
+                        {editIcon}
+                    </Button>
+
+                    <Button label="" className="ui-button-danger" onClick={this.obrisiZvanje}>
+                        {deleteIcon}
+                    </Button>
+                </div>
+                <div className="text-right">
+                    <InputText
+                        type="text"
+                        onChange={(e) => this.setState({ pretragaFilter: e.target.value })}
+                        placeholder="Претрага"
+                        size={30}
+                    />
+                    <i className="fa fa-search" style={{ marginLeft: '10px' }}></i>
+                </div>
+
+            </div>
+        );
     }
 
     render() {
         let content = null;
 
-        if (this.state.hasError) {
-            content = (<h3 className="text-center">Грешка приликом учитавања звања!</h3>);
+        if (this.state.zvanja == null && !this.state.hasError) {
+            content = (<div className="text-center">{loadingIcon}</div>);
+        } else if (this.state.hasError) {
+            content = (<h5 className="text-center">Грешка приликом учитавања звања!</h5>);
         } else if (this.state.zvanja != null) {
             content = (
                 <React.Fragment>
 
                     <div className="content-section implementation">
                         <Growl ref={el => this.growl = el}></Growl>
-
-                        <Toolbar>
-                            <Button label="Креирај ново звање" className="ui-button-success" onClick={this.openCreateZvanjeModal} />
-                            <Button label="Измени" className="ui-button-warning" onClick={this.izmeniZvanje} />
-                            <Button label="Обриши" className="ui-button-danger" onClick={this.obrisiZvanje} />
-                        </Toolbar>
-
-                        <p></p>
 
                         <DataTable
                             value={this.state.zvanja}
@@ -165,6 +202,8 @@ class ListaZvanja extends Component {
                             selection={this.state.selektovanoZvanje}
                             onSelectionChange={this.selektujZvanje}
                             resizableColumns={true}
+                            globalFilter={this.state.pretragaFilter}
+                            header={this.getTableHeader()}
                         >
                             <Column field="zvanjeId" header="ИД" sortable style={{ width: '20%' }} />
                             <Column field="naziv" header="Назив" sortable />
@@ -181,11 +220,22 @@ class ListaZvanja extends Component {
 
                 {content}
 
-                <Dialog modal={true}
+                <Dialog
+                    modal={true}
                     resizable={true}
                     visible={this.state.modal.isModalOpen}
                     onHide={() => this.setState({ modal: { isModalOpen: false } })}>
                     <NapraviZvanje napraviZvanje={this.napraviZvanje} />
+                </Dialog>
+
+                <Dialog
+                    modal={true}
+                    resizable={true}
+                    minWidth={400}
+                    visible={this.state.modal.prikaziModalIzmeniZvanje}
+                    onHide={() => this.setState({ modal: { prikaziModalIzmeniZvanje: false } })}
+                >
+                    {(this.state.selektovanoZvanje !== null) ? <IzmenaZvanja zvanje={this.state.selektovanoZvanje} /> : ''}
                 </Dialog>
             </div>
         );
