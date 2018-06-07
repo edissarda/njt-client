@@ -6,6 +6,7 @@ import ListaZvanja from '../zvanje/ListaZvanja';
 import 'primereact/resources/themes/omega/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'font-awesome/css/font-awesome.css';
+import PrikazRukovodioca from '../rukovodilac/PrikazRukovodioca';
 
 class WebSite extends Component {
     render() {
@@ -27,6 +28,7 @@ function Sadrzaj() {
                     <Switch>
                         <Route path="/" exact render={() => <h5>Здраво</h5>} />
                         <Route path="/zvanje" exact component={ListaZvanja} />
+                        <Route path="/rukovodilac" exact component={PrikazRukovodioca} />
                         <Route path="/kontakt" exact component={() => <div>Контакт страница</div>} />
                         <Route render={() => <div className="col-6 col-offset-6"><h1>Грешка 404</h1></div>} />
                     </Switch>

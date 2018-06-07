@@ -13,16 +13,12 @@ class Nav extends Component {
                         </li>
 
                         <li className="nav-item">
-                            <div className="dropdown">
-                                <a style={{cursor: 'pointer'}} className="nav-link dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Звање
-                                </a>
-                                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <NavLink exact className="dropdown-item" to="/zvanje">Приказ свих звања</NavLink>
-                                </div>
-                            </div>
+                            <NavLink to="/zvanje" className="nav-link">Звање</NavLink>
                         </li>
 
+                        <li className="nav-item">
+                            <NavLink to="/rukovodilac" className="nav-link">Руководилац</NavLink>
+                        </li>
 
                         <li className="nav-item">
                             <NavLink to="/kontakt" className="nav-link">Контакт</NavLink>

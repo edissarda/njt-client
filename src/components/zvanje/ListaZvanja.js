@@ -124,7 +124,7 @@ class ListaZvanja extends Component {
             this.showMessage('Звање је успешно ажурирано.');
             this.zatvoriModalIzmeniZvanje();
         }).catch(error => {
-            this.showModal('Дошло је до грешке приликом ажирирања звања.');
+            this.showMessage('Дошло је до грешке приликом ажирирања звања.', '', 'warn');
             return false;
         });
     }

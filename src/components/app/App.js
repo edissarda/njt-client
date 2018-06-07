@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import WebSite from '../website/Website';
-import { BrowserRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 
 class App extends Component {
 	render() {
 		return (
-			<BrowserRouter>
+			<MemoryRouter>
 				<WebSite />
-			</BrowserRouter>
+			</MemoryRouter>
 		);
 	}
 }
