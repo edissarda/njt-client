@@ -18,7 +18,8 @@ class ListaZvanja extends Component {
         zvanja: null,
         hasError: false,
         modal: {
-            isModalOpen: false,
+            prikaziModalKreirajZvanje: false,
+            prikaziModalIzmeniZvanje: false,
         },
         selektovanoZvanje: null,
         pretragaFilter: null,
@@ -43,10 +44,18 @@ class ListaZvanja extends Component {
         });
     }
 
-    closeModal = () => {
+    zatvoriModalKreirajZvanje = () => {
         this.setState({
             modal: {
-                isModalOpen: false,
+                prikaziModalKreirajZvanje: false,
+            }
+        });
+    }
+
+    zatvoriModalIzmeniZvanje = () => {
+        this.setState({
+            modal: {
+                prikaziModalIzmeniZvanje: false,
             }
         });
     }
@@ -54,14 +63,6 @@ class ListaZvanja extends Component {
     showMessage = (details, summary = null, msgType = 'success') => {
         this.growl.show({ severity: msgType, summary: summary, detail: details, life: 5000 });
     }
-
-    zvanjeCreated = async (zvanje) => {
-        this.ucitajZvanja();
-        await this.closeModal();
-        this.showMessage('Звање ' + zvanje.naziv + ' је успешно креирано.');
-    }
-
-
 
     zvanjeDeleted = () => {
         this.ucitajZvanja();
@@ -71,24 +72,16 @@ class ListaZvanja extends Component {
     openCreateZvanjeModal = () => {
         this.setState({
             modal: {
-                isModalOpen: true,
-            }
-        });
-    }
-
-    showModal = (text) => {
-        this.setState({
-            modal: {
-                isModalOpen: true,
+                prikaziModalKreirajZvanje: true,
             }
         });
     }
 
     napraviZvanje = (zvanje) => {
         axios.post('http://localhost:8080/WebApi/api/zvanje/', zvanje).then(resp => {
-            this.showMessage('Звање ' + zvanje.naziv + ' је успешно креирано');
             this.ucitajZvanja();
-            this.closeModal();
+            this.showMessage('Звање ' + zvanje.naziv + ' је успешно креирано');
+            this.zatvoriModalKreirajZvanje();
         }).catch(error => {
             this.showMessage('Звање није креирано', 'Грешка', 'error');
         });
@@ -99,9 +92,6 @@ class ListaZvanja extends Component {
             this.showMessage('Изаберите звање које желите да обришете', '', 'warn');
             return false;
         }
-
-        console.log(this.state.selektovanoZvanje);
-
 
         const zvanje = {
             ...this.state.selektovanoZvanje
@@ -115,7 +105,7 @@ class ListaZvanja extends Component {
         });
     }
 
-    izmeniZvanje = () => {
+    otvoriIzmeniZvanjeModal = () => {
         if (this.state.selektovanoZvanje == null) {
             this.showMessage('Изаберите звање које желите да измените', '', 'warn')
             return false;
@@ -131,8 +121,8 @@ class ListaZvanja extends Component {
     azurirajZvanje = (zvanje) => {
         axios.put('http://localhost:8080/WebApi/api/zvanje/' + zvanje.zvanjeId, zvanje).then(resp => {
             this.ucitajZvanja();
-            this.showModal('Звање је успешно ажурирано.');
-            return true;
+            this.showMessage('Звање је успешно ажурирано.');
+            this.zatvoriModalIzmeniZvanje();
         }).catch(error => {
             this.showModal('Дошло је до грешке приликом ажирирања звања.');
             return false;
@@ -157,7 +147,7 @@ class ListaZvanja extends Component {
                         {createIcon}
                     </Button>
 
-                    <Button label="" className="ui-button-warning" onClick={this.izmeniZvanje}>
+                    <Button label="" className="ui-button-warning" onClick={this.otvoriIzmeniZvanjeModal}>
                         {editIcon}
                     </Button>
 
@@ -223,7 +213,7 @@ class ListaZvanja extends Component {
                 <Dialog
                     modal={true}
                     resizable={true}
-                    visible={this.state.modal.isModalOpen}
+                    visible={this.state.modal.prikaziModalKreirajZvanje}
                     onHide={() => this.setState({ modal: { isModalOpen: false } })}>
                     <NapraviZvanje napraviZvanje={this.napraviZvanje} />
                 </Dialog>
@@ -235,10 +225,27 @@ class ListaZvanja extends Component {
                     visible={this.state.modal.prikaziModalIzmeniZvanje}
                     onHide={() => this.setState({ modal: { prikaziModalIzmeniZvanje: false } })}
                 >
-                    {(this.state.selektovanoZvanje !== null) ? <IzmenaZvanja zvanje={this.state.selektovanoZvanje} /> : ''}
+                    <IzmenaZvanja
+                        zvanje={this.state.selektovanoZvanje}
+                        onNazivZvanjaChange={this.nazivZvanjaChanged}
+                        azurirajZvanje={this.azurirajZvanje}
+                    />
                 </Dialog>
             </div>
         );
+
+
+    }
+
+    nazivZvanjaChanged = (e) => {
+        const zvanje = {
+            ...this.state.selektovanoZvanje,
+            naziv: e.target.value
+        }
+
+        this.setState({
+            selektovanoZvanje: zvanje,
+        });
     }
 }
 

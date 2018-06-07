@@ -12,10 +12,8 @@ class NapraviZvanje extends Component {
     napraviZvanje = (e) => {
         e.preventDefault();
 
-        console.log(this.state.naziv);
-
         const zvanje = {
-            naziv: this.state.naziv
+            naziv: this.state.naziv.trim()
         }
 
         this.props.napraviZvanje(zvanje);
