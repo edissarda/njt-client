@@ -33,6 +33,11 @@ class PrikazRukovodioca extends Component {
                     rukovodioci: response.data.data,
                     loading: false,
                 });
+            } else {
+                this.setState({
+                    loading: false,
+                    loadingError: true,
+                })
             }
         }).catch(() => {
             this.setState({
@@ -114,9 +119,9 @@ class PrikazRukovodioca extends Component {
     renderIzborPrikaza = () => {
         return (
             <Toolbar style={{ marginBottom: '30px' }}>
-                Приказ: 
-                <a href="/" onClick={(e) => this.postaviPrikaz(e, prikazi[0])}>табела</a> | 
-                <a href="/" onClick={(e) => this.postaviPrikaz(e, prikazi[1])}>мрежа</a> | 
+                Приказ:
+                <a href="/" onClick={(e) => this.postaviPrikaz(e, prikazi[0])}>табела</a> |
+                <a href="/" onClick={(e) => this.postaviPrikaz(e, prikazi[1])}>мрежа</a> |
                 <a href="/" onClick={(e) => this.postaviPrikaz(e, prikazi[2])}>листа</a>
             </Toolbar>
         );

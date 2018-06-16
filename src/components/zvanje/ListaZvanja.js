@@ -30,10 +30,9 @@ class ListaZvanja extends Component {
     }
 
     ucitajZvanja = () => {
-        axios.get('http://localhost:8080/WebApi/api/zvanje/').then(data => {
-            this.setState({ zvanja: data.data });
+        axios.get('http://localhost:8080/WebApi/api/zvanje/').then(resp => {
+            this.setState({ zvanja: resp.data.data });
         }).catch(error => {
-            console.log('Greska ' + error);
             this.setState({ hasError: true });
         });
     }
@@ -65,8 +64,8 @@ class ListaZvanja extends Component {
     }
 
     zvanjeDeleted = () => {
-        this.ucitajZvanja();
         this.deselektujZvanje();
+        this.ucitajZvanja();
     }
 
     openCreateZvanjeModal = () => {
@@ -79,9 +78,15 @@ class ListaZvanja extends Component {
 
     napraviZvanje = (zvanje) => {
         axios.post('http://localhost:8080/WebApi/api/zvanje/', zvanje).then(resp => {
-            this.ucitajZvanja();
-            this.showMessage('Звање ' + zvanje.naziv + ' је успешно креирано');
-            this.zatvoriModalKreirajZvanje();
+            const status = resp.data.status;
+            if (status === 200) {
+                this.ucitajZvanja();
+                this.showMessage('Звање ' + zvanje.naziv + ' је успешно креирано');
+                this.zatvoriModalKreirajZvanje();
+            } else {
+                this.showMessage(resp.data.error, 'Грешка', 'error');
+                this.zatvoriModalKreirajZvanje();
+            }
         }).catch(error => {
             this.showMessage('Звање није креирано', 'Грешка', 'error');
         });
@@ -98,9 +103,16 @@ class ListaZvanja extends Component {
         }
 
         axios.delete('http://localhost:8080/WebApi/api/zvanje/' + zvanje.zvanjeId).then(response => {
-            this.showMessage('Звање ' + zvanje.naziv + ' је успешно обрисано.');
-            this.zvanjeDeleted();
-        }).catch(error => {
+            const status = response.data.status;
+
+            if (status === 200) {
+                this.showMessage('Звање ' + response.data.data.naziv + ' је успешно обрисано.');
+                this.zvanjeDeleted();
+            } else {
+                this.showMessage(response.data.data.error, 'Грешка', 'error');
+            }
+
+        }).catch((error) => {
             this.showMessage('Звање ' + zvanje.naziv + ' није обрисано.', 'Грешка', 'error');
         });
     }
@@ -120,12 +132,18 @@ class ListaZvanja extends Component {
 
     azurirajZvanje = (zvanje) => {
         axios.put('http://localhost:8080/WebApi/api/zvanje/' + zvanje.zvanjeId, zvanje).then(resp => {
-            this.ucitajZvanja();
-            this.showMessage('Звање је успешно ажурирано.');
-            this.zatvoriModalIzmeniZvanje();
-        }).catch(error => {
+            const status = resp.data.status;
+
+            if (status === 200) {
+                this.ucitajZvanja();
+                this.showMessage('Звање је успешно ажурирано.');
+                this.zatvoriModalIzmeniZvanje();
+            } else {
+                this.showMessage(resp.data.error, 'Грешка', 'error');
+            }
+
+        }).catch(() => {
             this.showMessage('Дошло је до грешке приликом ажирирања звања.', '', 'warn');
-            return false;
         });
     }
 
@@ -214,7 +232,7 @@ class ListaZvanja extends Component {
                     modal={true}
                     resizable={true}
                     visible={this.state.modal.prikaziModalKreirajZvanje}
-                    onHide={() => this.setState({ modal: { isModalOpen: false } })}>
+                    onHide={() => this.setState({ modal: { prikaziModalKreirajZvanje: false } })}>
                     <NapraviZvanje napraviZvanje={this.napraviZvanje} />
                 </Dialog>
 
