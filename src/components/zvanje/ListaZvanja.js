@@ -83,12 +83,9 @@ class ListaZvanja extends Component {
                 this.ucitajZvanja();
                 this.showMessage('Звање ' + zvanje.naziv + ' је успешно креирано');
                 this.zatvoriModalKreirajZvanje();
-            } else {
-                this.showMessage(resp.data.error, 'Грешка', 'error');
-                this.zatvoriModalKreirajZvanje();
             }
         }).catch(error => {
-            this.showMessage('Звање није креирано', 'Грешка', 'error');
+            this.showMessage(error.response.data.error, 'Грешка', 'error');
         });
     }
 
@@ -104,16 +101,12 @@ class ListaZvanja extends Component {
 
         axios.delete('http://localhost:8080/WebApi/api/zvanje/' + zvanje.zvanjeId).then(response => {
             const status = response.data.status;
-
             if (status === 200) {
                 this.showMessage('Звање ' + response.data.data.naziv + ' је успешно обрисано.');
                 this.zvanjeDeleted();
-            } else {
-                this.showMessage(response.data.data.error, 'Грешка', 'error');
             }
-
         }).catch((error) => {
-            this.showMessage('Звање ' + zvanje.naziv + ' није обрисано.', 'Грешка', 'error');
+            this.showMessage(error.response.data.error, 'Грешка', 'error');
         });
     }
 
@@ -138,12 +131,10 @@ class ListaZvanja extends Component {
                 this.ucitajZvanja();
                 this.showMessage('Звање је успешно ажурирано.');
                 this.zatvoriModalIzmeniZvanje();
-            } else {
-                this.showMessage(resp.data.error, 'Грешка', 'error');
             }
 
-        }).catch(() => {
-            this.showMessage('Дошло је до грешке приликом ажирирања звања.', '', 'warn');
+        }).catch((error) => {
+            this.showMessage(error.response.data.error, 'Грешка', 'error');
         });
     }
 
