@@ -100,9 +100,6 @@ class PrikazRukovodioca extends Component {
                     <Column field="rukovodilacId" header="ИД" style={{ width: '5%' }} />
                     <Column field="ime" header="Име" sortable />
                     <Column field="prezime" header="Презиме" sortable />
-                    <Column field="fakultet.naziv" header="Факултет" sortable />
-                    <Column field="tipRukovodioca.naziv" header="Тип руководиоца" sortable />
-                    <Column field="zvanje.naziv" header="Звање" sortable />
                 </DataTable>
             </div>
         );

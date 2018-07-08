@@ -8,7 +8,7 @@ class IzmenaZvanja extends Component {
         e.preventDefault();
 
         const zvanje = {
-            zvanjeId: this.props.zvanje.zvanjeId,
+            id: this.props.zvanje.id,
             naziv: e.target.naziv.value.trim()
         }
 
@@ -25,7 +25,7 @@ class IzmenaZvanja extends Component {
                     <div className="form-group">
                         <InputText
                             autoComplete="off"
-                            value={(this.props.zvanje === null) ? '' : this.props.zvanje.zvanjeId}
+                            value={(this.props.zvanje === null) ? '' : this.props.zvanje.id}
                             readOnly={true}
                             type="text"
                             className="form-control"

@@ -9,8 +9,9 @@ import { Dialog } from 'primereact/components/dialog/Dialog';
 import { loadingIcon } from './../common/loading';
 import { createIcon, editIcon, deleteIcon, refreshIcon } from './../common/icons';
 import { InputText } from 'primereact/components/inputtext/InputText';
-
 import IzmenaZvanja from './IzmenaZvanja';
+
+const uri = 'zvanje/';
 
 class ListaZvanja extends Component {
 
@@ -25,12 +26,12 @@ class ListaZvanja extends Component {
         pretragaFilter: null,
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.ucitajZvanja();
     }
 
     ucitajZvanja = () => {
-        axios.get('http://localhost:8080/WebApi/api/zvanje/').then(resp => {
+        axios.get(uri).then(resp => {
             this.setState({ zvanja: resp.data.data });
         }).catch(error => {
             this.setState({ hasError: true });
@@ -77,12 +78,14 @@ class ListaZvanja extends Component {
     }
 
     napraviZvanje = (zvanje) => {
-        axios.post('http://localhost:8080/WebApi/api/zvanje/', zvanje).then(resp => {
+        axios.post(uri, zvanje).then(resp => {
             const status = resp.data.status;
             if (status === 200) {
                 this.ucitajZvanja();
                 this.showMessage('Звање ' + zvanje.naziv + ' је успешно креирано');
                 this.zatvoriModalKreirajZvanje();
+            } else {
+                this.showMessage(resp.data.message, '', 'error');
             }
         }).catch(error => {
             this.showMessage(error.response.data.error, 'Грешка', 'error');
@@ -99,7 +102,7 @@ class ListaZvanja extends Component {
             ...this.state.selektovanoZvanje
         }
 
-        axios.delete('http://localhost:8080/WebApi/api/zvanje/' + zvanje.zvanjeId).then(response => {
+        axios.delete(uri + zvanje.id).then(response => {
             const status = response.data.status;
             if (status === 200) {
                 this.showMessage('Звање ' + response.data.data.naziv + ' је успешно обрисано.');
@@ -124,7 +127,7 @@ class ListaZvanja extends Component {
     }
 
     azurirajZvanje = (zvanje) => {
-        axios.put('http://localhost:8080/WebApi/api/zvanje/' + zvanje.zvanjeId, zvanje).then(resp => {
+        axios.put(uri + zvanje.id, zvanje).then(resp => {
             const status = resp.data.status;
 
             if (status === 200) {
@@ -204,7 +207,7 @@ class ListaZvanja extends Component {
                             globalFilter={this.state.pretragaFilter}
                             header={this.getTableHeader()}
                         >
-                            <Column field="zvanjeId" header="ИД" sortable style={{ width: '20%' }} />
+                            <Column field="id" header="ИД" sortable style={{ width: '20%' }} />
                             <Column field="naziv" header="Назив" sortable />
                         </DataTable>
                     </div>
@@ -231,6 +234,7 @@ class ListaZvanja extends Component {
                     modal={true}
                     resizable={true}
                     minWidth={400}
+                    minHeight={300}
                     visible={this.state.modal.prikaziModalIzmeniZvanje}
                     onHide={() => this.setState({ modal: { prikaziModalIzmeniZvanje: false } })}
                 >
@@ -240,6 +244,7 @@ class ListaZvanja extends Component {
                         azurirajZvanje={this.azurirajZvanje}
                     />
                 </Dialog>
+
             </div>
         );
 
