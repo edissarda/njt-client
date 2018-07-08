@@ -107,6 +107,8 @@ class ListaZvanja extends Component {
             if (status === 200) {
                 this.showMessage('Звање ' + response.data.data.naziv + ' је успешно обрисано.');
                 this.zvanjeDeleted();
+            } else {
+                this.showMessage('Звање ' + zvanje.naziv + ' није обрисано. Постоје руководиоци са овим звањем.', null, 'error');
             }
         }).catch((error) => {
             this.showMessage(error.response.data.error, 'Грешка', 'error');
