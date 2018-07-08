@@ -218,7 +218,7 @@ class ListaZvanja extends Component {
 
         return (
             <div>
-                <h2 className="text-center">Приказ свих звања</h2>
+                <h2 className="text-center">Приказ звања</h2>
 
                 {content}
 

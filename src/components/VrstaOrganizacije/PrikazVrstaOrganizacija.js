@@ -5,14 +5,14 @@ import { loadingIcon } from './../common/loading';
 
 axios.defaults.baseURL = 'http://localhost:8080/';
 
-const uri = 'tip-rukovodioca';
+const uri = 'vrsta-organizacije';
 
 class PrikazTipovaRukovodioca extends Component {
     state = {
-        tipoviRukovodioca: [],
+        vrsteOrganizacija: [],
         loading: true,
         hasError: false,
-        title: 'Приказ типова руководиоца',
+        title: 'Приказ врста организација',
     }
 
     componentDidMount() {
@@ -42,7 +42,7 @@ class PrikazTipovaRukovodioca extends Component {
 
     setSuccessLoading = (data) => {
         this.setState({
-            tipoviRukovodioca: data,
+            vrsteOrganizacija: data,
             loading: false,
             hasError: false,
         });
@@ -62,14 +62,14 @@ class PrikazTipovaRukovodioca extends Component {
             content = (
                 <div className="text-center">
                     <h2>{this.state.title}</h2>
-                    <h4>Грешка приликом учитавања типова руководиоца</h4>
+                    <h4>Грешка приликом учитавања врста организација</h4>
                 </div>
             );
         } else {
             content = (
                 <GenerickiPrikaz
                     title={this.state.title}
-                    data={this.state.tipoviRukovodioca}
+                    data={this.state.vrsteOrganizacija}
                     columnNames={['id', 'naziv']}
                 />
             );
