@@ -5,21 +5,21 @@ import { loadingIcon } from './../common/loading';
 
 axios.defaults.baseURL = 'http://localhost:8080/';
 
-const uri = 'vrsta-organizacije';
+const uri = 'naucna-oblast';
 
-class PrikazTipovaRukovodioca extends Component {
+class PrikazNaucnihOblasti extends Component {
     state = {
-        vrsteOrganizacija: [],
+        naucneOblasti: [],
         loading: true,
         hasError: false,
         title: 'Приказ врста организација',
     }
 
     componentDidMount() {
-        this.ucitajVrsteOrganizacija();
+        this.ucitajNaucneOblasti();
     }
 
-    ucitajVrsteOrganizacija = () => {
+    ucitajNaucneOblasti = () => {
         axios.get(uri)
             .then(resp => {
                 const response = resp.data;
@@ -42,7 +42,7 @@ class PrikazTipovaRukovodioca extends Component {
 
     setSuccessLoading = (data) => {
         this.setState({
-            vrsteOrganizacija: data,
+            naucneOblasti: data,
             loading: false,
             hasError: false,
         });
@@ -69,7 +69,7 @@ class PrikazTipovaRukovodioca extends Component {
             content = (
                 <GenerickiPrikaz
                     title={this.state.title}
-                    data={this.state.vrsteOrganizacija}
+                    data={this.state.naucneOblasti}
                     columnNames={['id', 'naziv']}
                 />
             );
@@ -83,4 +83,4 @@ class PrikazTipovaRukovodioca extends Component {
     }
 }
 
-export default PrikazTipovaRukovodioca;
+export default PrikazNaucnihOblasti;
