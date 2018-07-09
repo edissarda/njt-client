@@ -32,8 +32,11 @@ class ListaZvanja extends Component {
 
     ucitajZvanja = () => {
         axios.get(uri).then(resp => {
-            this.setState({ zvanja: resp.data.data });
-        }).catch(error => {
+            this.setState({
+                zvanja: resp.data.data,
+                selektovanoZvanje: null,
+            });
+        }).catch(() => {
             this.setState({ hasError: true });
         });
     }
@@ -136,6 +139,8 @@ class ListaZvanja extends Component {
                 this.ucitajZvanja();
                 this.showMessage('Звање је успешно ажурирано.');
                 this.zatvoriModalIzmeniZvanje();
+            } else {
+                this.showMessage(resp.data.message, null, 'error');
             }
 
         }).catch((error) => {

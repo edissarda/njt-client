@@ -5,10 +5,12 @@ import { Column } from 'primereact/components/column/Column';
 import { Button } from 'primereact/components/button/Button';
 import { Growl } from 'primereact/components/growl/Growl';
 import { InputText } from 'primereact/components/inputtext/InputText';
-
+import { Dialog } from 'primereact/components/dialog/Dialog';
 import { loadingIcon } from '../common/loading';
 import { createIcon, editIcon, deleteIcon, refreshIcon, viewIcon } from './../common/icons';
+import KreirajNoviFakultet from './KreirajNoviFakultet';
 
+import PrikazIzabranogFakulteta from './PrikazIzabranogFakulteta';
 const uri = 'fakultet';
 
 class PrikazSvihFakulteta extends Component {
@@ -21,7 +23,6 @@ class PrikazSvihFakulteta extends Component {
             {
                 field: 'id',
                 header: 'ИД',
-                style: { width: '20% !important' }
             },
             {
                 field: 'naziv',
@@ -35,7 +36,10 @@ class PrikazSvihFakulteta extends Component {
                 field: 'poreskiBroj',
                 header: 'Порески број'
             }
-        ]
+        ],
+        prikaziKreirajFakultetDialog: false,
+        prikaziDialogZaPrikazFakulteta: false,
+        selektovaniFakultet: null,
     }
 
     componentDidMount() {
@@ -50,9 +54,6 @@ class PrikazSvihFakulteta extends Component {
 
         axios.get(uri).then(response => {
             const data = response.data;
-
-            console.log(data);
-
 
             if (data.status === 200) {
                 this.uspesnoUcitaniFakulteti(data.data);
@@ -89,12 +90,9 @@ class PrikazSvihFakulteta extends Component {
             return false;
         }
 
-        const fakultet = {
-            ...this.state.selektovaniFakultet
-        }
-
-        this.showMessage(fakultet.naziv, 'info');
-
+        this.setState({
+            prikaziDialogZaPrikazFakulteta: true,
+        });
     }
 
     getTableHeader = () => {
@@ -109,7 +107,7 @@ class PrikazSvihFakulteta extends Component {
                         {viewIcon}
                     </Button>
 
-                    <Button label="" className="ui-button-success" onClick={() => { this.showMessage('TODO :)', 'info') }}>
+                    <Button label="" className="ui-button-success" onClick={() => { this.setState({ prikaziKreirajFakultetDialog: true }) }}>
                         {createIcon}
                     </Button>
 
@@ -130,7 +128,6 @@ class PrikazSvihFakulteta extends Component {
                     />
                     <i className="fa fa-search" style={{ marginLeft: '10px' }}></i>
                 </div>
-
             </div>
         );
     }
@@ -139,6 +136,44 @@ class PrikazSvihFakulteta extends Component {
         this.setState({
             selektovaniFakultet: e.data,
         });
+    }
+
+    getDialogKreirajFakultet = () => {
+        return (
+            <Dialog
+                visible={this.state.prikaziKreirajFakultetDialog}
+                onHide={() => this.setState({ prikaziKreirajFakultetDialog: false })}
+                minWidth={700}
+                minHeight={400}
+                resizable={true}
+                header="Креирање новог факултета"
+            >
+
+                <KreirajNoviFakultet />
+
+            </Dialog>
+        );
+    }
+
+    getDialogPrikaziFakultet = () => {
+        if (this.state.prikaziDialogZaPrikazFakulteta) {
+            return (
+                <Dialog
+                    visible={this.state.prikaziDialogZaPrikazFakulteta}
+                    onHide={() => this.setState({ prikaziDialogZaPrikazFakulteta: false })}
+                    minWidth={700}
+                    minHeight={400}
+                    resizable={true}
+                    header="Приказ изабраног факултета"
+                >
+
+                    <PrikazIzabranogFakulteta fakultet={this.state.selektovaniFakultet} />
+
+                </Dialog>
+            );
+        }
+
+        return null;
     }
 
     render() {
@@ -180,12 +215,19 @@ class PrikazSvihFakulteta extends Component {
                                             field={column.field}
                                             header={column.header}
                                             sortable
-                                            style={column.style}
                                         />);
                                 })
                             }
                         </DataTable>
                     </div>
+
+                    {
+                        this.getDialogKreirajFakultet()
+                    }
+
+                    {
+                        this.getDialogPrikaziFakultet()
+                    }
 
                 </React.Fragment>
             );

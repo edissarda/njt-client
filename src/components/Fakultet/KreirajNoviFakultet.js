@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { loadingIcon } from '../common/loading';
 import { Growl } from 'primereact/components/growl/Growl';
+import { InputText } from 'primereact/components/inputtext/InputText';
 
 const vrsteOrganizacijaUri = 'vrsta-organizacije';
 const pravneFormeUri = 'pravna-forma';
 const naucneOblastiUri = 'naucna-oblast';
 
+const uri = 'fakultet/';
 class KreirajNoviFakultet extends Component {
 
     state = {
@@ -20,7 +22,51 @@ class KreirajNoviFakultet extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
 
-        this.growl.show({ severity: 'info', summary: null, detail: e.target.naziv.value });
+        const naziv = e.target.naziv.value.trim();
+        const maticniBroj = e.target.maticniBroj.value.trim();
+        const pib = e.target.poreskiBroj.value.trim();
+        const opis = e.target.opis.value.trim();
+        const vrstaOrganizacije = {
+            id: e.target.vrstaOrganizacije.value,
+            naziv: e.target.vrstaOrganizacije.options[e.target.vrstaOrganizacije.options.selectedIndex].text,
+        }
+        const pravnaForma = {
+            id: e.target.pravnaForma.value,
+            naziv: e.target.pravnaForma.options[e.target.pravnaForma.options.selectedIndex].text,
+        }
+        const naucnaOblast = {
+            id: e.target.naucnaOblast.value,
+            naziv: e.target.naucnaOblast.options[e.target.naucnaOblast.options.selectedIndex].text,
+        }
+
+        const fakultet = {
+            naziv,
+            maticniBroj,
+            poreskiBroj: pib,
+            opis,
+            vrstaOrganizacije,
+            pravnaForma,
+            naucnaOblast
+        }
+
+        this.kreirajFakultet(fakultet);
+    }
+
+    // slanje POST zahteva za cuvanje fakulteta u bazu
+    kreirajFakultet = (fakultet) => {
+        axios.post(uri, fakultet).then(response => {
+            if (response.data.status === 200) {
+                this.showMessage('Факултет је успешно сачуван');
+            } else {
+                this.showMessage(response.data.message, 'error');
+            }
+        }).catch(() => {
+            this.showMessage('Дошло је до грешке приликом чувања факултета', 'error');
+        });
+    }
+
+    showMessage = (msg, type = 'success', title = null) => {
+        this.growl.show({ severity: type, summary: title, detail: msg });
     }
 
     async componentDidMount() {
@@ -29,7 +75,6 @@ class KreirajNoviFakultet extends Component {
 
             if (resp.status === 200) {
                 this.setVrstaOrganizacija(resp.data);
-                console.log(resp.data);
             } else {
                 this.setError();
             }
@@ -42,7 +87,6 @@ class KreirajNoviFakultet extends Component {
 
             if (resp.status === 200) {
                 this.setPravneForme(resp.data);
-                console.log(resp.data);
             } else {
                 this.setError();
             }
@@ -55,7 +99,6 @@ class KreirajNoviFakultet extends Component {
 
             if (resp.status === 200) {
                 this.setNaucneOblasti(resp.data);
-                console.log(resp.data);
             } else {
                 this.setError();
             }
@@ -102,55 +145,58 @@ class KreirajNoviFakultet extends Component {
 
     getForm = () => {
         return (
-            <div className="col-12">
+            <div className="col-12" style={{ marginTop: '30px', marginBottom: '30px' }}>
                 <form onSubmit={this.handleSubmit}>
 
                     <div className="form-group">
-                        <label htmlFor="naziv">Назив</label>
-                        <input type="text"
-                            className="form-control"
-                            id="naziv"
-                            placeholder="Назив"
-                            autoComplete="off"
-                        />
+                        <span className="ui-float-label">
+                            <InputText 
+                                type="text"
+                                className="form-control"
+                                id="naziv"
+                                autoComplete="off"
+                            />
+                            <label htmlFor="naziv">Назив</label>
+                        </span>
                     </div>
 
                     <div className="row">
                         <div className="col-6">
-
-                            <div className="">
-                                <label htmlFor="naziv">Матични број</label>
-                                <input type="text"
-                                    className="form-control"
-                                    id="maticni-broj"
-                                    placeholder="Матични број"
-                                    autoComplete="off"
-                                />
+                            <div className="form-group">
+                                <span className="ui-float-label">
+                                    <InputText
+                                        type="text"
+                                        className="form-control"
+                                        id="maticniBroj"
+                                        autoComplete="off"
+                                    />
+                                    <label htmlFor="maticniBroj">Матични број</label>
+                                </span>
                             </div>
                         </div>
 
                         <div className="col-6">
-                            <div className="">
-                                <label htmlFor="naziv">Порески број</label>
-                                <input type="text"
-                                    className="form-control"
-                                    id="poreski-broj"
-                                    placeholder="Порески број"
-                                    autoComplete="off"
-                                />
+                            <div className="form-group">
+                                <span className="ui-float-label">
+                                    <InputText type="text"
+                                        className="form-control"
+                                        id="poreskiBroj"
+                                        autoComplete="off"
+                                    />
+                                    <label htmlFor="poreskiBroj">Порески број</label>
+                                </span>
                             </div>
                         </div>
                     </div>
 
 
                     <div className="form-group">
-                        <label htmlFor="naziv">Опис</label>
-                        <textarea className="form-control" id="opis" placeholder="Опис"></textarea>
+                        <textarea className="form-control" id="opis" placeholder="Опис"s></textarea>
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="vrsta-organizacije">Врста организације</label>
-                        <select className="form-control" id="vrsta-organizacije">
+                        <select className="form-control" id="vrstaOrganizacije">
                             {
                                 this.state.vrsteOrganizacija.map(vo => {
                                     return (
@@ -163,7 +209,7 @@ class KreirajNoviFakultet extends Component {
 
                     <div className="form-group">
                         <label htmlFor="pravna-forma">Правна форма</label>
-                        <select className="form-control" id="pravna-forma">
+                        <select className="form-control" id="pravnaForma">
                             {
                                 this.state.pravneForme.map(pf => {
                                     return (
@@ -176,7 +222,7 @@ class KreirajNoviFakultet extends Component {
 
                     <div className="form-group">
                         <label htmlFor="naucna-oblast">Научна област</label>
-                        <select className="form-control" id="naucna-oblast">
+                        <select className="form-control" id="naucnaOblast">
                             {
                                 this.state.naucneOblasti.map(no => {
                                     return (
@@ -187,8 +233,8 @@ class KreirajNoviFakultet extends Component {
                         </select>
                     </div>
 
-                    <button type="submit" className="btn btn-success">Сачувај</button>
-                </form >
+                    <button type="submit" className="btn btn-block btn-success">Сачувај</button>
+                </form>
             </div>
         );
     }
@@ -215,6 +261,7 @@ class KreirajNoviFakultet extends Component {
                 </React.Fragment>
             );
         }
+
         return (
             <React.Fragment>
 
