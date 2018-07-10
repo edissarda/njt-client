@@ -16,9 +16,10 @@ class Nav extends Component {
                             <NavLink className="nav-link dropdown-toggle" data-toggle="dropdown" to="#">Шифарници</NavLink>
                             <div className="dropdown-menu">
                                 <NavLink to="/zvanje" className="nav-link dropdown-item">Звања</NavLink>
-                                <NavLink to="/tipovi-rukovodioca" className="nav-link dropdown-item">Типови руководиоца</NavLink>
-                                <NavLink to="/vrste-organizacija" className="nav-link dropdown-item">Врсте организација</NavLink>
-                                <NavLink to="/naucne-oblasti" className="nav-link dropdown-item">Научне области</NavLink>
+                                <NavLink to="/tip-rukovodioca" className="nav-link dropdown-item">Типови руководиоца</NavLink>
+                                <NavLink to="/vrsta-organizacije" className="nav-link dropdown-item">Врсте организација</NavLink>
+                                <NavLink to="/naucna-oblast" className="nav-link dropdown-item">Научне области</NavLink>
+                                <NavLink to="/titula" className="nav-link dropdown-item">Титуле</NavLink>
                             </div>
                         </li>
 

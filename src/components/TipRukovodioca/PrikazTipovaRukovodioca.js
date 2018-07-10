@@ -12,7 +12,7 @@ class PrikazTipovaRukovodioca extends Component {
         tipoviRukovodioca: [],
         loading: true,
         hasError: false,
-        title: 'Приказ типова руководиоца',
+        title: 'Типови руководиоца',
     }
 
     componentDidMount() {

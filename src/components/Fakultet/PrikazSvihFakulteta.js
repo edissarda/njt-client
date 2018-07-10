@@ -6,6 +6,7 @@ import { Button } from 'primereact/components/button/Button';
 import { Growl } from 'primereact/components/growl/Growl';
 import { InputText } from 'primereact/components/inputtext/InputText';
 import { Dialog } from 'primereact/components/dialog/Dialog';
+import { Sidebar } from 'primereact/components/sidebar/Sidebar';
 import { loadingIcon } from '../common/loading';
 import { createIcon, editIcon, deleteIcon, refreshIcon, viewIcon } from './../common/icons';
 import KreirajNoviFakultet from './KreirajNoviFakultet';
@@ -50,6 +51,7 @@ class PrikazSvihFakulteta extends Component {
         this.setState({
             loading: true,
             hasError: false,
+            selektovaniFakultet: null,
         });
 
         axios.get(uri).then(response => {
@@ -142,9 +144,10 @@ class PrikazSvihFakulteta extends Component {
         return (
             <Dialog
                 visible={this.state.prikaziKreirajFakultetDialog}
-                onHide={() => this.setState({ prikaziKreirajFakultetDialog: false })}
-                minWidth={700}
-                minHeight={400}
+                onHide={() =>
+                    this.setState({ prikaziKreirajFakultetDialog: false, selektovaniFakultet: null, })
+                }
+                minWidth={650}
                 resizable={true}
                 header="Креирање новог факултета"
             >
@@ -158,18 +161,23 @@ class PrikazSvihFakulteta extends Component {
     getDialogPrikaziFakultet = () => {
         if (this.state.prikaziDialogZaPrikazFakulteta) {
             return (
-                <Dialog
+                <Sidebar
                     visible={this.state.prikaziDialogZaPrikazFakulteta}
+                    fullScreen={true}
                     onHide={() => this.setState({ prikaziDialogZaPrikazFakulteta: false })}
-                    minWidth={700}
-                    minHeight={400}
-                    resizable={true}
-                    header="Приказ изабраног факултета"
-                >
+                    blockScroll={false}>
+                    <PrikazIzabranogFakulteta id={this.state.selektovaniFakultet.id} />
+                </Sidebar>
+                // <Dialog
+                //     visible={this.state.prikaziDialogZaPrikazFakulteta}
+                //     onHide={() => this.setState({ prikaziDialogZaPrikazFakulteta: false })}
+                //     resizable={true}
+                //     header="Приказ изабраног факултета"
+                // >
 
-                    <PrikazIzabranogFakulteta fakultet={this.state.selektovaniFakultet} />
+                //     <PrikazIzabranogFakulteta id={this.state.selektovaniFakultet.id} />
 
-                </Dialog>
+                // </Dialog>
             );
         }
 
@@ -234,13 +242,13 @@ class PrikazSvihFakulteta extends Component {
         }
 
         return (
-            <React.Fragment>
+            <div>
 
                 <h2 className="text-center">Факултети</h2>
 
                 {content}
 
-            </React.Fragment>
+            </div>
         );
     }
 }

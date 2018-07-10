@@ -12,7 +12,7 @@ class PrikazNaucnihOblasti extends Component {
         naucneOblasti: [],
         loading: true,
         hasError: false,
-        title: 'Приказ врста организација',
+        title: 'Научне области',
     }
 
     componentDidMount() {
@@ -62,7 +62,7 @@ class PrikazNaucnihOblasti extends Component {
             content = (
                 <div className="text-center">
                     <h2>{this.state.title}</h2>
-                    <h4>Грешка приликом учитавања врста организација</h4>
+                    <h4>Грешка приликом учитавања научних области</h4>
                 </div>
             );
         } else {

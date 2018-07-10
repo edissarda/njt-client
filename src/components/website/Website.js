@@ -11,6 +11,7 @@ import KreirajNoviFakultet from '../Fakultet/KreirajNoviFakultet';
 import 'primereact/resources/themes/omega/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'font-awesome/css/font-awesome.css';
+import PrikazSvihTitula from '../Titula/PrikazSvihTitula';
 
 
 class WebSite extends Component {
@@ -34,9 +35,10 @@ function Sadrzaj() {
                     <Switch>
                         <Route path="/" exact render={() => <h5>Здраво</h5>} />
                         <Route path="/zvanje" exact component={ListaZvanja} />
-                        <Route path="/tipovi-rukovodioca" exact component={PrikazTipovaRukovodioca} />
-                        <Route path="/vrste-organizacija" exact component={PrikazVrstaOrganizacija} />
-                        <Route path="/naucne-oblasti" exact component={PrikazNaucnihOblasti} />
+                        <Route path="/tip-rukovodioca" exact component={PrikazTipovaRukovodioca} />
+                        <Route path="/vrsta-organizacije" exact component={PrikazVrstaOrganizacija} />
+                        <Route path="/naucna-oblast" exact component={PrikazNaucnihOblasti} />
+                        <Route path="/titula" exact component={PrikazSvihTitula} />
 
                         <Route path="/fakultet" exact component={PrikazSvihFakulteta} />
                         <Route path="/fakultet-kreiraj" exact component={KreirajNoviFakultet} />

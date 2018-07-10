@@ -3,8 +3,6 @@ import axios from 'axios';
 import GenerickiPrikaz from './../common/GenerickiPrikaz';
 import { loadingIcon } from './../common/loading';
 
-axios.defaults.baseURL = 'http://localhost:8080/';
-
 const uri = 'vrsta-organizacije';
 
 class PrikazTipovaRukovodioca extends Component {
@@ -12,7 +10,7 @@ class PrikazTipovaRukovodioca extends Component {
         vrsteOrganizacija: [],
         loading: true,
         hasError: false,
-        title: 'Приказ врста организација',
+        title: 'Врсте организација',
     }
 
     componentDidMount() {
