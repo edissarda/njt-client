@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Button } from 'primereact/components/button/Button';
-import { InputText } from 'primereact/components/inputtext/InputText';
+import { Button } from '@material-ui/core';
+import { TextField } from '../../../node_modules/@material-ui/core';
 
 class IzmenaZvanja extends Component {
 
@@ -22,31 +22,28 @@ class IzmenaZvanja extends Component {
 
                 <form onSubmit={this.handleSubmit} style={{ marginTop: '30px' }}>
 
-                    <div className="form-group">
-                        <InputText
-                            autoComplete="off"
-                            value={(this.props.zvanje === null) ? '' : this.props.zvanje.id}
-                            readOnly={true}
-                            type="text"
-                            className="form-control"
-                        />
-                    </div>
+                    <TextField
+                        autoComplete="off"
+                        value={(this.props.zvanje === null) ? '' : this.props.zvanje.id}
+                        readOnly
+                        type="text"
+                        fullWidth
+                        label="ИД"
+                    />
 
-                    <div className="form-group">
-                        <div className="ui-float-label">
-                            <InputText
-                                id="naziv"
-                                autoComplete="off"
-                                value={(this.props.zvanje === null) ? '' : this.props.zvanje.naziv}
-                                onChange={this.props.onNazivZvanjaChange}
-                                type="text"
-                                className="form-control"
-                            />
-                            <label htmlFor="naziv">Назив звања</label>
-                        </div>
-                    </div>
+                    <TextField
+                        id="naziv"
+                        autoComplete="off"
+                        value={(this.props.zvanje === null) ? '' : this.props.zvanje.naziv}
+                        onChange={this.props.onNazivZvanjaChange}
+                        type="text"
+                        label="Назив"
+                        fullWidth
+                    />
 
-                    <Button type="submit" label="Измени" style={{ marginTop: '10px' }} />
+                    <Button type="submit" variant="contained" fullWidth style={{ marginTop: '10px' }}>
+                        Сачувај измене
+                    </Button>
                 </form>
             </React.Fragment>
         );

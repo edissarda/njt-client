@@ -2,16 +2,15 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { DataTable } from 'primereact/components/datatable/DataTable';
 import { Column } from 'primereact/components/column/Column';
-import { Button } from 'primereact/components/button/Button';
 import { Growl } from 'primereact/components/growl/Growl';
-import { InputText } from 'primereact/components/inputtext/InputText';
-import { Dialog } from 'primereact/components/dialog/Dialog';
-import { Sidebar } from 'primereact/components/sidebar/Sidebar';
 import { loadingIcon } from '../common/loading';
-import { createIcon, editIcon, deleteIcon, refreshIcon, viewIcon } from './../common/icons';
+import { searchIcon, createIcon, refreshIcon, viewIcon } from './../common/icons';
 import KreirajNoviFakultet from './KreirajNoviFakultet';
+import { Dialog, TextField } from '@material-ui/core';
+import CloseButton from './../common/CloseButton'
 
 import PrikazIzabranogFakulteta from './PrikazIzabranogFakulteta';
+import TooltipButton from '../common/TooltipButton';
 const uri = 'fakultet';
 
 class PrikazSvihFakulteta extends Component {
@@ -101,17 +100,23 @@ class PrikazSvihFakulteta extends Component {
         return (
             <div style={{ position: 'relative' }}>
                 <div className="pull-left">
-                    <Button label="" className="ui-button-primary" onClick={this.ucitajFakultete}>
+                    <TooltipButton
+                        onClick={this.ucitajFakultete}
+                        tooltip="Освежи приказ">
                         {refreshIcon}
-                    </Button>
+                    </TooltipButton>
 
-                    <Button label="" className="ui-button-primary" onClick={this.prikaziPodatkeOFakultetu}>
+                    <TooltipButton
+                        onClick={this.prikaziPodatkeOFakultetu}
+                        tooltip="Приказ података о факултету">
                         {viewIcon}
-                    </Button>
+                    </TooltipButton>
 
-                    <Button label="" className="ui-button-success" onClick={() => { this.setState({ prikaziKreirajFakultetDialog: true }) }}>
+                    <TooltipButton
+                        onClick={() => { this.setState({ prikaziKreirajFakultetDialog: true }) }}
+                        tooltip="Креирај нови факултет">
                         {createIcon}
-                    </Button>
+                    </TooltipButton>
 
                     {/* <Button label="" className="ui-button-warning" onClick={this.otvoriIzmeniZvanjeModal}>
                         {editIcon}
@@ -122,13 +127,14 @@ class PrikazSvihFakulteta extends Component {
                     </Button> */}
                 </div>
                 <div className="text-right">
-                    <InputText
+                    <TextField
                         type="text"
                         onChange={(e) => this.setState({ pretragaFilter: e.target.value })}
-                        placeholder="Претрага"
-                        size={30}
+                        label="Претрага"
+                        InputProps={{
+                            endAdornment: searchIcon
+                        }}
                     />
-                    <i className="fa fa-search" style={{ marginLeft: '10px' }}></i>
                 </div>
             </div>
         );
@@ -143,45 +149,48 @@ class PrikazSvihFakulteta extends Component {
     getDialogKreirajFakultet = () => {
         return (
             <Dialog
-                visible={this.state.prikaziKreirajFakultetDialog}
-                onHide={() =>
+                open={this.state.prikaziKreirajFakultetDialog}
+                onClose={() =>
                     this.setState({ prikaziKreirajFakultetDialog: false, selektovaniFakultet: null, })
                 }
-                minWidth={650}
-                resizable={true}
-                header="Креирање новог факултета"
+                fullWidth
+                scroll="paper"
+                maxWidth="md"
             >
+                <div style={{ padding: '30px' }}>
+                    <KreirajNoviFakultet />
 
-                <KreirajNoviFakultet />
+                    <CloseButton onClick={() => this.setState({ prikaziKreirajFakultetDialog: false })} />
+                </div>
 
             </Dialog>
         );
     }
 
     getDialogPrikaziFakultet = () => {
-        if (this.state.prikaziDialogZaPrikazFakulteta) {
-            return (
-                <Sidebar
-                    visible={this.state.prikaziDialogZaPrikazFakulteta}
-                    fullScreen={true}
-                    onHide={() => this.setState({ prikaziDialogZaPrikazFakulteta: false })}
-                    blockScroll={false}>
+        let dialogContent = 'Изаберите факултет';
+        if (this.state.selektovaniFakultet != null) {
+            dialogContent = (
+                <div style={{ padding: '30px' }}>
                     <PrikazIzabranogFakulteta id={this.state.selektovaniFakultet.id} />
-                </Sidebar>
-                // <Dialog
-                //     visible={this.state.prikaziDialogZaPrikazFakulteta}
-                //     onHide={() => this.setState({ prikaziDialogZaPrikazFakulteta: false })}
-                //     resizable={true}
-                //     header="Приказ изабраног факултета"
-                // >
 
-                //     <PrikazIzabranogFakulteta id={this.state.selektovaniFakultet.id} />
-
-                // </Dialog>
+                    <CloseButton onClick={() => this.setState({ prikaziDialogZaPrikazFakulteta: false })} />
+                </div>
             );
         }
 
-        return null;
+        return (
+            <Dialog
+                open={this.state.prikaziDialogZaPrikazFakulteta}
+                onClose={() => this.setState({ prikaziDialogZaPrikazFakulteta: false, selektovaniFakultet: null })}
+                fullWidth
+                scroll="paper"
+                maxWidth={false}
+            >
+                {dialogContent}
+
+            </Dialog>
+        );
     }
 
     render() {

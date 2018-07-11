@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { InputText } from 'primereact/components/inputtext/InputText';
-import { Button } from 'primereact/components/button/Button';
-
+import { TextField } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 
 class NapraviZvanje extends Component {
 
@@ -23,23 +22,22 @@ class NapraviZvanje extends Component {
     render() {
         return (
             <div className="col-12">
-                <h1 className="text-center">Направи ново звање</h1>
-                
+                <h2 className="text-center">Креирање новог звања</h2>
+
                 <form method="POST" onSubmit={this.napraviZvanje}>
 
-                    <div className="ui-float-label" style={{ marginTop: '20px', width: '100%' }}>
-                        <InputText
-                            type="text"
-                            id="naziv"
-                            onChange={(e) => this.setState({ naziv: e.target.value })}
-                            value={this.state.naziv}
-                            autoComplete="off"
-                            className="form-control"
-                        />
-                        <label htmlFor="naziv">Назив звања</label>
-                    </div>
+                    <TextField
+                        type="text"
+                        label="Назив"
+                        onChange={(e) => this.setState({ naziv: e.target.value })}
+                        value={this.state.naziv}
+                        autoComplete="off"
+                        fullWidth
+                    />
 
-                    <Button label="Направи" type="submit" className="ui-button-success" style={{ marginTop: '10px' }} />
+                    <Button type='submit' variant="contained" fullWidth style={{ marginTop: '20px' }}>
+                        Сачувај
+                    </Button>
                 </form>
             </div>
         );

@@ -342,7 +342,7 @@ class KreirajNoviFakultet extends Component {
                         </div>
                     </div>
 
-                    <Button type='submit' variant="contained" color="default">
+                    <Button type='submit' fullWidth variant="contained" color="default">
                         Сачувај
                     </Button>
                 </form >

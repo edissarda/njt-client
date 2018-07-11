@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { DataTable } from 'primereact/components/datatable/DataTable';
 import { Column } from 'primereact/components/column/Column';
-import { Button } from 'primereact/components/button/Button';
-import { InputText } from 'primereact/components/inputtext/InputText';
-import { refreshIcon, createIcon, editIcon, deleteIcon } from './icons';
+import { refreshIcon, createIcon, editIcon, deleteIcon, searchIcon } from './icons';
+import TooltipButton from './../common/TooltipButton';
+import { TextField } from '@material-ui/core';
 
 class GenerickiPrikaz extends Component {
 
@@ -16,32 +16,44 @@ class GenerickiPrikaz extends Component {
         return (
             <div style={{ position: 'relative' }}>
                 <div className="pull-left">
-                    <Button label="" className="ui-button-primary" onClick={this.ucitajZvanja}>
+                    <TooltipButton
+                        tooltip="Освежи приказ"
+                        onClick={() => { }}
+                    >
                         {refreshIcon}
-                    </Button>
+                    </TooltipButton>
 
-                    <Button label="" className="ui-button-success" onClick={this.openCreateZvanjeModal}>
+                    <TooltipButton
+                        tooltip="Креирај"
+                        onClick={() => { }}
+                    >
                         {createIcon}
-                    </Button>
+                    </TooltipButton>
 
-                    <Button label="" className="ui-button-warning" onClick={this.otvoriIzmeniZvanjeModal}>
+                    <TooltipButton
+                        tooltip="Измени"
+                        onClick={() => { }}
+                    >
                         {editIcon}
-                    </Button>
+                    </TooltipButton>
 
-                    <Button label="" className="ui-button-danger" onClick={this.obrisiZvanje}>
+                    <TooltipButton
+                        tooltip="Обриши"
+                        onClick={() => { }}
+                    >
                         {deleteIcon}
-                    </Button>
+                    </TooltipButton>
                 </div>
                 <div className="text-right">
-                    <InputText
+                    <TextField
                         type="text"
                         onChange={(e) => this.setState({ pretragaFilter: e.target.value })}
-                        placeholder="Претрага"
-                        size={30}
+                        label="Претрага"
+                        InputProps={{
+                            endAdornment: searchIcon
+                        }}
                     />
-                    <i className="fa fa-search" style={{ marginLeft: '10px' }}></i>
                 </div>
-
             </div>
         );
     }

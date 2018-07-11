@@ -3,13 +3,14 @@ import axios from 'axios';
 import NapraviZvanje from './NapraviZvanje';
 import { DataTable } from 'primereact/components/datatable/DataTable';
 import { Column } from 'primereact/components/column/Column';
-import { Button } from 'primereact/components/button/Button';
+import { TextField } from '@material-ui/core';
 import { Growl } from 'primereact/components/growl/Growl';
-import { Dialog } from 'primereact/components/dialog/Dialog';
+import { Dialog } from '@material-ui/core';
 import { loadingIcon } from './../common/loading';
-import { createIcon, editIcon, deleteIcon, refreshIcon } from './../common/icons';
-import { InputText } from 'primereact/components/inputtext/InputText';
+import { createIcon, editIcon, deleteIcon, refreshIcon, searchIcon } from './../common/icons';
 import IzmenaZvanja from './IzmenaZvanja';
+import TooltipButton from '../common/TooltipButton';
+import CloseButton from '../common/CloseButton';
 
 const uri = 'zvanje/';
 
@@ -111,7 +112,7 @@ class ListaZvanja extends Component {
                 this.showMessage('Звање ' + response.data.data.naziv + ' је успешно обрисано.');
                 this.zvanjeDeleted();
             } else {
-                this.showMessage('Звање ' + zvanje.naziv + ' није обрисано. Постоје руководиоци са овим звањем.', null, 'error');
+                this.showMessage(response.data.message, null, 'error');
             }
         }).catch((error) => {
             this.showMessage(error.response.data.error, 'Грешка', 'error');
@@ -158,30 +159,43 @@ class ListaZvanja extends Component {
         return (
             <div style={{ position: 'relative' }}>
                 <div className="pull-left">
-                    <Button label="" className="ui-button-primary" onClick={this.ucitajZvanja}>
+                    <TooltipButton
+                        tooltip="Освежи приказ"
+                        onClick={this.ucitajZvanja}
+                    >
                         {refreshIcon}
-                    </Button>
+                    </TooltipButton>
 
-                    <Button label="" className="ui-button-success" onClick={this.openCreateZvanjeModal}>
+                    <TooltipButton
+                        tooltip="Креирај ново звање"
+                        onClick={this.openCreateZvanjeModal}
+                    >
                         {createIcon}
-                    </Button>
+                    </TooltipButton>
 
-                    <Button label="" className="ui-button-warning" onClick={this.otvoriIzmeniZvanjeModal}>
+                    <TooltipButton
+                        tooltip="Измени звање"
+                        onClick={() => { this.otvoriIzmeniZvanjeModal() }}
+                    >
                         {editIcon}
-                    </Button>
+                    </TooltipButton>
 
-                    <Button label="" className="ui-button-danger" onClick={this.obrisiZvanje}>
+                    <TooltipButton
+                        tooltip="Обриши звање"
+                        onClick={() => { this.obrisiZvanje() }}
+                    >
                         {deleteIcon}
-                    </Button>
+                    </TooltipButton>
                 </div>
                 <div className="text-right">
-                    <InputText
+                    <TextField
                         type="text"
                         onChange={(e) => this.setState({ pretragaFilter: e.target.value })}
-                        placeholder="Претрага"
-                        size={30}
+                        label="Претрага"
+                        InputProps={{
+                            endAdornment: searchIcon,
+                        }}
                     />
-                    <i className="fa fa-search" style={{ marginLeft: '10px' }}></i>
                 </div>
 
             </div>
@@ -225,31 +239,32 @@ class ListaZvanja extends Component {
 
         return (
             <div>
-                <h2 className="text-center">Приказ звања</h2>
+                <h2 className="text-center">Звања</h2>
 
                 {content}
 
                 <Dialog
-                    modal={true}
-                    resizable={true}
-                    visible={this.state.modal.prikaziModalKreirajZvanje}
-                    onHide={() => this.setState({ modal: { prikaziModalKreirajZvanje: false } })}>
-                    <NapraviZvanje napraviZvanje={this.napraviZvanje} />
+                    open={this.state.modal.prikaziModalKreirajZvanje}
+                    onClose={() => this.setState({ modal: { prikaziModalKreirajZvanje: false } })}
+                >
+                    <div style={{ padding: '30px' }}>
+                        <NapraviZvanje napraviZvanje={this.napraviZvanje} />
+                    </div>
                 </Dialog>
 
                 <Dialog
-                    modal={true}
-                    resizable={true}
-                    minWidth={400}
-                    minHeight={300}
-                    visible={this.state.modal.prikaziModalIzmeniZvanje}
-                    onHide={() => this.setState({ modal: { prikaziModalIzmeniZvanje: false } })}
+                    open={this.state.modal.prikaziModalIzmeniZvanje}
+                    onClose={() => this.setState({ modal: { prikaziModalIzmeniZvanje: false } })}
                 >
-                    <IzmenaZvanja
-                        zvanje={this.state.selektovanoZvanje}
-                        onNazivZvanjaChange={this.nazivZvanjaChanged}
-                        azurirajZvanje={this.azurirajZvanje}
-                    />
+                    <div style={{ padding: '30px' }}>
+                        <IzmenaZvanja
+                            zvanje={this.state.selektovanoZvanje}
+                            onNazivZvanjaChange={this.nazivZvanjaChanged}
+                            azurirajZvanje={this.azurirajZvanje}
+                        />
+
+                        <CloseButton onClick={() => this.setState({ modal: { prikaziModalIzmeniZvanje: false } })} />
+                    </div>
                 </Dialog>
 
             </div>

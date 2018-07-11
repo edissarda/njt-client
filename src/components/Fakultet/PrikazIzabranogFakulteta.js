@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { loadingIcon } from '../common/loading';
 import PropTypes from 'prop-types';
-import { Button } from '../../../node_modules/primereact/components/button/Button';
 import { Growl } from '../../../node_modules/primereact/components/growl/Growl';
+import { Button, Table, TableHead, TableRow, TableCell, TableBody, Paper } from '@material-ui/core';
+import { createIcon } from '../common/icons';
 
 const uri = 'fakultet/'
 
@@ -77,38 +78,37 @@ class PrikazIzabranogFakulteta extends Component {
         }
 
         return (
-            <table className="table table-stripped">
+            <Paper>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Име</TableCell>
+                            <TableCell>Презиме</TableCell>
+                            <TableCell>Датум од</TableCell>
+                            <TableCell>Датум до</TableCell>
+                            <TableCell>Звање</TableCell>
+                            <TableCell>Титула</TableCell>
+                            <TableCell>Тип руководиоца</TableCell>
+                        </TableRow>
+                    </TableHead>
 
-                <thead>
-                    <tr>
-                        <th>Име</th>
-                        <th>Презиме</th>
-                        <th>Датум од</th>
-                        <th>Датум до</th>
-                        <th>Звање</th>
-                        <th>Титула</th>
-                        <th>Тип руководиоца</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {this.state.rukovodioci.map((rukovodilac, i) => {
-                        return (
-                            <tr key={i + Math.random() + 'i'}>
-                                <td>{rukovodilac.ime}</td>
-                                <td>{rukovodilac.prezime}</td>
-                                <td>{rukovodilac.datumOd}</td>
-                                <td>{rukovodilac.datumDo}</td>
-                                <td>{rukovodilac.hasOwnProperty('zvanje') ? rukovodilac.zvanje.naziv : 'НЕПОЗНАТО'}</td>
-                                <td>{(rukovodilac.hasOwnProperty('titula')) ? rukovodilac.titula.naziv : 'НЕПОТНАТО'}</td>
-                                <td>{(rukovodilac.hasOwnProperty('tipRukovodioca')) ? rukovodilac.tipRukovodioca.naziv : 'НЕПОЗНАТО'}</td>
-                            </tr>
-                        );
-                    })}
-
-                </tbody>
-
-            </table>
+                    <TableBody>
+                        {this.state.rukovodioci.map(rukovodilac => {
+                            return (
+                                <TableRow key={'tr-key-' + rukovodilac.id}>
+                                    <TableCell>{rukovodilac.ime}</TableCell>
+                                    <TableCell>{rukovodilac.prezime}</TableCell>
+                                    <TableCell>{rukovodilac.datumOd}</TableCell>
+                                    <TableCell>{rukovodilac.datumDo}</TableCell>
+                                    <TableCell>{rukovodilac.hasOwnProperty('zvanje') ? rukovodilac.zvanje.naziv : 'НЕПОЗНАТО'}</TableCell>
+                                    <TableCell>{(rukovodilac.hasOwnProperty('titula')) ? rukovodilac.titula.naziv : 'НЕПОТНАТО'}</TableCell>
+                                    <TableCell>{(rukovodilac.hasOwnProperty('tipRukovodioca')) ? rukovodilac.tipRukovodioca.naziv : 'НЕПОЗНАТО'}</TableCell>
+                                </TableRow>
+                            );
+                        })}
+                    </TableBody>
+                </Table>
+            </Paper>
         );
     }
 
@@ -160,9 +160,14 @@ class PrikazIzabranogFakulteta extends Component {
 
                     </table>
 
+
                     <h4>Руководиоци</h4>
 
-                    <p><Button label="Додај руководиоца" /></p>
+                    <p>
+                        <Button variant="text">
+                            {createIcon}
+                        </Button>
+                    </p>
 
                     {this.getRukovodioci()}
                 </div>

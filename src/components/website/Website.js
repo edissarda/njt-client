@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Nav from '../nav/Nav';
 import { Route, Switch } from 'react-router-dom';
-import ListaZvanja from '../zvanje/ListaZvanja';
+import PrikazSvihZvanja from '../zvanje/PrikazSvihZvanja';
 import PrikazTipovaRukovodioca from '../TipRukovodioca/PrikazTipovaRukovodioca';
 import PrikazVrstaOrganizacija from './../VrstaOrganizacije/PrikazVrstaOrganizacija';
 import PrikazSvihFakulteta from '../Fakultet/PrikazSvihFakulteta';
@@ -34,7 +34,7 @@ function Sadrzaj() {
                 <div className="col-12">
                     <Switch>
                         <Route path="/" exact render={() => <h5>Здраво</h5>} />
-                        <Route path="/zvanje" exact component={ListaZvanja} />
+                        <Route path="/zvanje" exact component={PrikazSvihZvanja} />
                         <Route path="/tip-rukovodioca" exact component={PrikazTipovaRukovodioca} />
                         <Route path="/vrsta-organizacije" exact component={PrikazVrstaOrganizacija} />
                         <Route path="/naucna-oblast" exact component={PrikazNaucnihOblasti} />
