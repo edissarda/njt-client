@@ -95,10 +95,10 @@ class PrikazIzabranogFakulteta extends Component {
                     <TableBody>
                         {this.state.rukovodioci.map(rukovodilac => {
                             return (
-                                <TableRow key={'tr-key-' + rukovodilac.id}>
+                                <TableRow key={'tr-key-' + rukovodilac.id} hover={true}>
                                     <TableCell>{rukovodilac.ime}</TableCell>
                                     <TableCell>{rukovodilac.prezime}</TableCell>
-                                    <TableCell>{rukovodilac.datumOd}</TableCell>
+                                    <TableCell>{rukovodilac.datumOd}=</TableCell>
                                     <TableCell>{rukovodilac.datumDo}</TableCell>
                                     <TableCell>{rukovodilac.hasOwnProperty('zvanje') ? rukovodilac.zvanje.naziv : 'НЕПОЗНАТО'}</TableCell>
                                     <TableCell>{(rukovodilac.hasOwnProperty('titula')) ? rukovodilac.titula.naziv : 'НЕПОТНАТО'}</TableCell>
@@ -128,37 +128,39 @@ class PrikazIzabranogFakulteta extends Component {
             content = (
                 <div>
                     <h3 className="text-center">{this.state.fakultet.naziv}</h3>
-                    <table className="table table-stripped table-responsive">
-                        <tbody>
-                            <tr>
-                                <td>Матични број:</td>
-                                <td>{this.state.fakultet.maticniBroj}</td>
-                            </tr>
-                            <tr>
-                                <td>Порески број:</td>
-                                <td>{this.state.fakultet.poreskiBroj}</td>
-                            </tr>
+                    <Paper>
+                        <Table>
+                            <TableBody>
+                                <TableRow>
+                                    <TableCell>Матични број:</TableCell>
+                                    <TableCell>{this.state.fakultet.maticniBroj}</TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell>Порески број:</TableCell>
+                                    <TableCell>{this.state.fakultet.poreskiBroj}</TableCell>
+                                </TableRow>
 
-                            <tr>
-                                <td>Опис:</td>
-                                <td>
-                                    <div style={{ wordWrap: 'break-word', maxWidth: '600px' }}>
-                                        {this.state.fakultet.opis}
-                                    </div>
-                                </td>
-                            </tr>
+                                <TableRow>
+                                    <TableCell>Опис:</TableCell>
+                                    <TableCell>
+                                        <div style={{ wordWrap: 'break-word', maxWidth: '600px' }}>
+                                            {this.state.fakultet.opis}
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
 
-                            <tr>
-                                <td>Врста организације:</td>
-                                <td>{this.state.fakultet.vrstaOrganizacije.naziv}</td>
-                            </tr>
-                            <tr>
-                                <td>Научна област:</td>
-                                <td>{this.state.fakultet.naucnaOblast.naziv}</td>
-                            </tr>
-                        </tbody>
+                                <TableRow>
+                                    <TableCell>Врста организације:</TableCell>
+                                    <TableCell>{this.state.fakultet.vrstaOrganizacije.naziv}</TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell>Научна област:</TableCell>
+                                    <TableCell>{this.state.fakultet.naucnaOblast.naziv}</TableCell>
+                                </TableRow>
+                            </TableBody>
 
-                    </table>
+                        </Table>
+                    </Paper>
 
 
                     <h4>Руководиоци</h4>

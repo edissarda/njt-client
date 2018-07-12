@@ -7,7 +7,7 @@ class CloseButton extends Component {
     render() {
         return (
             <Button
-                style={{ position: 'absolute', right: '30px', top: '30px'}}
+                style={{ position: 'absolute', right: '20px', top: '20px'}}
                 variant="fab"
                 onClick={this.props.onClick}
                 mini={true}

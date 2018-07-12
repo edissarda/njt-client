@@ -18,8 +18,10 @@ class KreirajNoviFakultet extends Component {
         vrsteOrganizacija: [],
         pravneForme: [],
         naucneOblasti: [],
+        filterVrstaOrganizacije: '',
         izabranaVrstaOrganizacije: null,
         izabranaPravnaForma: null,
+        filterNaucnaOblast: '',
         izabranaNaucnaOblast: null,
         loading: true,
         hasError: false,
@@ -209,6 +211,12 @@ class KreirajNoviFakultet extends Component {
                                 autoComplete="off"
                                 fullWidth
                                 placeholder="Претрага"
+                                onChange={(e) => {
+                                    this.setState({
+                                        filterVrstaOrganizacije: e.target.value.toLowerCase(),
+                                    });
+                                }}
+                                value={this.state.filterVrstaOrganizacije}
                             />
                         </div>
 
@@ -226,9 +234,13 @@ class KreirajNoviFakultet extends Component {
                                 onChange={(e) => {
                                     const index = this.state.vrsteOrganizacija.findIndex(vo => vo.id === e.target.value);
                                     if (index >= 0) {
-                                        const vrstaOrg = this.state.vrsteOrganizacija[index];
+                                        const vrstaOrg = { ...this.state.vrsteOrganizacija[index] };
                                         this.setState({
                                             izabranaVrstaOrganizacije: vrstaOrg
+                                        });
+                                    } else {
+                                        this.setState({
+                                            izabranaVrstaOrganizacije: null,
                                         });
                                     }
                                 }}
@@ -237,11 +249,19 @@ class KreirajNoviFakultet extends Component {
                                 displayEmpty
                             >
                                 {
-                                    this.state.vrsteOrganizacija.map(vo => {
-                                        return (
-                                            <MenuItem key={vo.id} value={vo.id}>{vo.naziv}</MenuItem>
-                                        );
-                                    })
+                                    this.state.vrsteOrganizacija
+                                        .filter(vo => {
+                                            const filterValue = this.state.filterVrstaOrganizacije.toLowerCase().trim();
+                                            if (filterValue === '') {
+                                                return true;
+                                            }
+                                            return vo.naziv.toLowerCase().includes(filterValue);
+                                        })
+                                        .map(vo => {
+                                            return (
+                                                <MenuItem key={vo.id} value={vo.id}>{vo.naziv}</MenuItem>
+                                            );
+                                        })
                                 }
                             </Select>
 
@@ -260,6 +280,12 @@ class KreirajNoviFakultet extends Component {
                                 placeholder="Претрага"
                                 autoComplete="off"
                                 fullWidth
+                                onChange={(e) => {
+                                    this.setState({
+                                        filterNaucnaOblast: e.target.value.toLowerCase(),
+                                    });
+                                }}
+                                value={this.state.filterNaucnaOblast}
                             />
                         </div>
                         <div className="col-8">
@@ -274,20 +300,32 @@ class KreirajNoviFakultet extends Component {
                                 onChange={(e) => {
                                     const index = this.state.naucneOblasti.findIndex(no => no.id === e.target.value);
                                     if (index >= 0) {
-                                        const naucnaOblast = this.state.naucneOblasti[index];
+                                        const naucnaOblast = { ...this.state.naucneOblasti[index] };
                                         this.setState({
                                             izabranaNaucnaOblast: {
                                                 id: naucnaOblast.id,
                                                 naziv: naucnaOblast.naziv
                                             },
                                         })
+                                    } else {
+                                        this.setState({
+                                            izabranaNaucnaOblast: null,
+                                        });
                                     }
                                 }}
                                 fullWidth
 
                             >
                                 {
-                                    this.state.naucneOblasti.map(no => {
+                                    this.state.naucneOblasti
+                                    .filter(no => {
+                                        const filterValue = this.state.filterNaucnaOblast.toLowerCase().trim();
+                                        if (filterValue === '') {
+                                            return true;
+                                        }
+                                        return no.naziv.toLowerCase().includes(filterValue);
+                                    })
+                                    .map(no => {
                                         return (
                                             <MenuItem key={no.id} value={no.id}>{no.naziv}</MenuItem>
                                         );
@@ -322,9 +360,13 @@ class KreirajNoviFakultet extends Component {
                                     onChange={(e) => {
                                         const index = this.state.pravneForme.findIndex(pf => pf.id === e.target.value);
                                         if (index >= 0) {
-                                            const pravnaForma = this.state.pravneForme[index];
+                                            const pravnaForma = { ...this.state.pravneForme[index] };
                                             this.setState({
                                                 izabranaPravnaForma: pravnaForma
+                                            });
+                                        } else {
+                                            this.setState({
+                                                izabranaPravnaForma: null,
                                             });
                                         }
                                     }}
