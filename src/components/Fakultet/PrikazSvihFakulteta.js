@@ -171,7 +171,7 @@ class PrikazSvihFakulteta extends Component {
         let dialogContent = 'Изаберите факултет';
         if (this.state.selektovaniFakultet != null) {
             dialogContent = (
-                <div style={{ padding: '30px' }}>
+                <div style={{ padding: '30px 100px 30px' }}>
                     <PrikazIzabranogFakulteta id={this.state.selektovaniFakultet.id} />
 
                     <CloseButton onClick={() => this.setState({ prikaziDialogZaPrikazFakulteta: false })} />

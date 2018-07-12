@@ -71,44 +71,100 @@ class PrikazIzabranogFakulteta extends Component {
     }
 
     getRukovodioci = () => {
+
+        const common = (
+            <div>
+                <h4>Руководиоци</h4>
+                <p>
+                    <Button variant="text">
+                        {createIcon}
+                    </Button>
+                </p>
+            </div>
+        );
         if (this.state.rukovodioci.length === 0) {
             return (
-                <div>Факултет нема руководиоца</div>
+                <div>
+                    {common}
+                    Факултет нема руководиоца.
+                </div>
             );
         }
 
         return (
-            <Paper>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Име</TableCell>
-                            <TableCell>Презиме</TableCell>
-                            <TableCell>Датум од</TableCell>
-                            <TableCell>Датум до</TableCell>
-                            <TableCell>Звање</TableCell>
-                            <TableCell>Титула</TableCell>
-                            <TableCell>Тип руководиоца</TableCell>
-                        </TableRow>
-                    </TableHead>
+            <div>
+                {common}
+                <Paper>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Име</TableCell>
+                                <TableCell>Презиме</TableCell>
+                                <TableCell>Датум од</TableCell>
+                                <TableCell>Датум до</TableCell>
+                                <TableCell>Звање</TableCell>
+                                <TableCell>Титула</TableCell>
+                                <TableCell>Тип руководиоца</TableCell>
+                            </TableRow>
+                        </TableHead>
 
-                    <TableBody>
-                        {this.state.rukovodioci.map(rukovodilac => {
-                            return (
-                                <TableRow key={'tr-key-' + rukovodilac.id} hover={true}>
-                                    <TableCell>{rukovodilac.ime}</TableCell>
-                                    <TableCell>{rukovodilac.prezime}</TableCell>
-                                    <TableCell>{rukovodilac.datumOd}=</TableCell>
-                                    <TableCell>{rukovodilac.datumDo}</TableCell>
-                                    <TableCell>{rukovodilac.hasOwnProperty('zvanje') ? rukovodilac.zvanje.naziv : 'НЕПОЗНАТО'}</TableCell>
-                                    <TableCell>{(rukovodilac.hasOwnProperty('titula')) ? rukovodilac.titula.naziv : 'НЕПОТНАТО'}</TableCell>
-                                    <TableCell>{(rukovodilac.hasOwnProperty('tipRukovodioca')) ? rukovodilac.tipRukovodioca.naziv : 'НЕПОЗНАТО'}</TableCell>
-                                </TableRow>
-                            );
-                        })}
-                    </TableBody>
-                </Table>
-            </Paper>
+                        <TableBody>
+                            {this.state.rukovodioci.map(rukovodilac => {
+                                return (
+                                    <TableRow key={'tr-key-' + rukovodilac.id} hover={true}>
+                                        <TableCell>{rukovodilac.ime}</TableCell>
+                                        <TableCell>{rukovodilac.prezime}</TableCell>
+                                        <TableCell>{rukovodilac.datumOd}=</TableCell>
+                                        <TableCell>{rukovodilac.datumDo}</TableCell>
+                                        <TableCell>{rukovodilac.hasOwnProperty('zvanje') ? rukovodilac.zvanje.naziv : 'НЕПОЗНАТО'}</TableCell>
+                                        <TableCell>{(rukovodilac.hasOwnProperty('titula')) ? rukovodilac.titula.naziv : 'НЕПОТНАТО'}</TableCell>
+                                        <TableCell>{(rukovodilac.hasOwnProperty('tipRukovodioca')) ? rukovodilac.tipRukovodioca.naziv : 'НЕПОЗНАТО'}</TableCell>
+                                    </TableRow>
+                                );
+                            })}
+                        </TableBody>
+                    </Table>
+                </Paper>
+            </div>
+        );
+    }
+
+    getPodaciOFakultetu = () => {
+        const common = (<h4>Подаци о факултету</h4>);
+
+        if (this.state.fakultet.podaci.length === 0) {
+            return (
+                <div>
+                    {common}
+                    Тренутно нема података о факултету.
+                </div>
+            );
+        }
+        return (
+            <div>
+                {common}
+                <Paper>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Вредност</TableCell>
+                                <TableCell>Тип</TableCell>
+                            </TableRow>
+                        </TableHead>
+
+                        <TableBody>
+                            {this.state.fakultet.podaci.map(podatak => {
+                                return (
+                                    <TableRow key={'tr-key-' + podatak.id} hover={true}>
+                                        <TableCell>{podatak.vrednost}</TableCell>
+                                        <TableCell>{podatak.vrstaPodatka.naziv}</TableCell>
+                                    </TableRow>
+                                );
+                            })}
+                        </TableBody>
+                    </Table>
+                </Paper>
+            </div>
         );
     }
 
@@ -163,13 +219,11 @@ class PrikazIzabranogFakulteta extends Component {
                     </Paper>
 
 
-                    <h4>Руководиоци</h4>
+                    {
+                        this.getPodaciOFakultetu()
+                    }
 
-                    <p>
-                        <Button variant="text">
-                            {createIcon}
-                        </Button>
-                    </p>
+
 
                     {this.getRukovodioci()}
                 </div>
