@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Nav from '../nav/Nav';
+import Navigacija from '../nav/Navigacija';
 import { Route, Switch } from 'react-router-dom';
 import PrikazSvihZvanja from '../zvanje/PrikazSvihZvanja';
 import PrikazTipovaRukovodioca from '../TipRukovodioca/PrikazTipovaRukovodioca';
@@ -7,18 +7,19 @@ import PrikazVrstaOrganizacija from './../VrstaOrganizacije/PrikazVrstaOrganizac
 import PrikazSvihFakulteta from '../Fakultet/PrikazSvihFakulteta';
 import PrikazNaucnihOblasti from '../NaucnaOblast/PrikazNaucnihOblasti';
 import KreirajNoviFakultet from '../Fakultet/KreirajNoviFakultet';
+import PrikazSvihTitula from '../Titula/PrikazSvihTitula';
+import KreiranjeNovogRukovodioca from '../rukovodilac/KreiranjeNovogRukovodioca';
 
 import 'primereact/resources/themes/omega/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'font-awesome/css/font-awesome.css';
-import PrikazSvihTitula from '../Titula/PrikazSvihTitula';
 
 
 class WebSite extends Component {
     render() {
         return (
             <React.Fragment>
-                <Nav />
+                <Navigacija />
                 <Sadrzaj />
                 <Footer />
             </React.Fragment>
@@ -42,7 +43,7 @@ function Sadrzaj() {
 
                         <Route path="/fakultet" exact component={PrikazSvihFakulteta} />
                         <Route path="/fakultet-kreiraj" exact component={KreirajNoviFakultet} />
-                        {/* <Route path="/rukovodilac" exact component={PrikazRukovodioca} /> */}
+                        <Route path="/rukovodilac-kreiraj" exact component={KreiranjeNovogRukovodioca} />
                         <Route path="/kontakt" exact component={() => <div>Контакт страница</div>} />
 
                         <Route render={() => <div className="col-6 col-offset-6"><h1>Грешка 404</h1></div>} />

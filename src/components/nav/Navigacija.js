@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 
-
-class Nav extends Component {
+class Navigacija extends Component {
     render() {
         return (
             <div className="container">
@@ -33,7 +32,7 @@ class Nav extends Component {
 
 
                         <li className="nav-item">
-                            <NavLink to="/rukovodilac" className="nav-link">Руководилац</NavLink>
+                            <NavLink to="/rukovodilac-kreiraj" className="nav-link">Руководилац</NavLink>
                         </li>
 
                         <li className="nav-item">
@@ -48,4 +47,4 @@ class Nav extends Component {
     }
 }
 
-export default Nav;
+export default Navigacija;

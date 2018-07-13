@@ -6,9 +6,10 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import { Table, TableHead, TableRow, TableCell, TableBody, Paper } from '@material-ui/core';
-import { deleteIcon, refreshIcon, createIcon } from '../common/icons';
-import TooltipButton from '../common/TooltipButton'
+import { Table, TableHead, TableRow, TableCell, TableBody, Paper, IconButton } from '@material-ui/core';
+import { refreshIcon, createIcon } from '../common/icons';
+import DeleteIcon from '@material-ui/icons/Delete';
+import TooltipButton from '../common/TooltipButton';
 
 const vrsteOrganizacijaUri = 'vrsta-organizacije';
 const pravneFormeUri = 'pravna-forma';
@@ -94,60 +95,41 @@ class KreirajNoviFakultet extends Component {
     }
 
     ucitajPotrebnePodatke = async () => {
-        await axios.get(vrsteOrganizacijaUri).then(response => {
-            const resp = response.data;
 
-            if (resp.status === 200) {
-                this.setVrstaOrganizacija(resp.data);
+        this.ucitajTipovePodataka();
+
+        try {
+            const vrsteOrganizacijaResp = await axios.get(vrsteOrganizacijaUri);
+            const pravneFormeResp = await axios.get(pravneFormeUri);
+            const naucneOblastiResp = await axios.get(naucneOblastiUri);
+
+            if (vrsteOrganizacijaResp.data.status === 200
+                && pravneFormeResp.data.status === 200
+                && naucneOblastiResp.data.status === 200) {
+                this.setState({
+                    vrsteOrganizacija: vrsteOrganizacijaResp.data.data,
+                    pravneForme: pravneFormeResp.data.data,
+                    naucneOblasti: naucneOblastiResp.data.data,
+                });
             } else {
                 this.setError();
             }
-        }).catch(() => {
+
+        } catch (error) {
             this.setError();
-        });
-
-        await axios.get(pravneFormeUri).then(response => {
-            const resp = response.data;
-
-            if (resp.status === 200) {
-                this.setPravneForme(resp.data);
-            } else {
-                this.setError();
-            }
-        }).catch(() => {
-            this.setError();
-        });
-
-        await axios.get(naucneOblastiUri).then(response => {
-            const resp = response.data;
-
-            if (resp.status === 200) {
-                this.setNaucneOblasti(resp.data);
-            } else {
-                this.setError();
-            }
-        }).catch(() => {
-            this.setError();
-        });
-
-        await this.ucitajTipovePodataka();
+        }
 
         this.setKrajUcitavanja();
     }
 
-    ucitajTipovePodataka = () => {
-        axios.get('tip-podatka')
-            .then(resp => {
-                if (resp.data.status === 200) {
-                    this.setState({
-                        tipoviPodataka: resp.data.data,
-                    });
-                } else {
-                    this.setError();
-                }
-            }).catch(() => {
-                this.setError();
-            });
+    ucitajTipovePodataka = async () => {
+        const tipoviPodatakaResp = await axios.get('tip-podatka');
+
+        if (tipoviPodatakaResp.data.status === 200) {
+            this.setState({
+                tipoviPodataka: tipoviPodatakaResp.data.data,
+            })
+        }
     }
 
     setVrstaOrganizacija = (data) => {
@@ -209,7 +191,7 @@ class KreirajNoviFakultet extends Component {
                                         <TableCell>{podatak.vrednost}</TableCell>
                                         <TableCell>{podatak.tipPodatka.naziv}</TableCell>
                                         <TableCell>
-                                            <Button onClick={() => {
+                                            <IconButton onClick={() => {
                                                 const podatakId = podatak.id;
                                                 const noviPodaci = this.state.dodatiPodaci.filter(p => p.id !== podatakId);
 
@@ -217,8 +199,8 @@ class KreirajNoviFakultet extends Component {
                                                     dodatiPodaci: noviPodaci,
                                                 });
                                             }}>
-                                                {deleteIcon}
-                                            </Button>
+                                                <DeleteIcon />
+                                            </IconButton>
                                         </TableCell>
                                     </TableRow>
                                 );
@@ -278,7 +260,7 @@ class KreirajNoviFakultet extends Component {
                         <div className="col-4">
 
                             <TooltipButton
-                                tooltip='Додај вредност'
+                                tooltip='Додај податак'
                                 onClick={
                                     () => {
                                         const podatak = {
