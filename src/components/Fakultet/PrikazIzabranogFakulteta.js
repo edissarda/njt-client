@@ -85,65 +85,69 @@ class PrikazIzabranogFakulteta extends Component {
         if (this.state.rukovodioci.length === 0) {
             return (
                 <div>
-                    {common}
-                    Факултет нема руководиоца.
+                    <Paper style={{ marginBottom: '20px', marginTop: '20px', padding: '20px' }}>
+                        {common}
+                        Факултет нема руководиоца.
+                    </Paper>
                 </div>
             );
         }
 
         return (
             <div>
-                {common}
-                <Paper>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Име</TableCell>
-                                <TableCell>Презиме</TableCell>
-                                <TableCell>Датум од</TableCell>
-                                <TableCell>Датум до</TableCell>
-                                <TableCell>Звање</TableCell>
-                                <TableCell>Титула</TableCell>
-                                <TableCell>Тип руководиоца</TableCell>
-                            </TableRow>
-                        </TableHead>
+                <Paper style={{ marginBottom: '20px', marginTop: '20px', padding: '20px' }}>
+                    { common }
+                    < Table >
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Име</TableCell>
+                            <TableCell>Презиме</TableCell>
+                            <TableCell>Датум од</TableCell>
+                            <TableCell>Датум до</TableCell>
+                            <TableCell>Звање</TableCell>
+                            <TableCell>Титула</TableCell>
+                            <TableCell>Тип руководиоца</TableCell>
+                        </TableRow>
+                    </TableHead>
 
-                        <TableBody>
-                            {this.state.rukovodioci.map(rukovodilac => {
-                                return (
-                                    <TableRow key={'tr-key-' + rukovodilac.id} hover={true}>
-                                        <TableCell>{rukovodilac.ime}</TableCell>
-                                        <TableCell>{rukovodilac.prezime}</TableCell>
-                                        <TableCell>{rukovodilac.datumOd}=</TableCell>
-                                        <TableCell>{rukovodilac.datumDo}</TableCell>
-                                        <TableCell>{rukovodilac.hasOwnProperty('zvanje') ? rukovodilac.zvanje.naziv : 'НЕПОЗНАТО'}</TableCell>
-                                        <TableCell>{(rukovodilac.hasOwnProperty('titula')) ? rukovodilac.titula.naziv : 'НЕПОТНАТО'}</TableCell>
-                                        <TableCell>{(rukovodilac.hasOwnProperty('tipRukovodioca')) ? rukovodilac.tipRukovodioca.naziv : 'НЕПОЗНАТО'}</TableCell>
-                                    </TableRow>
-                                );
-                            })}
-                        </TableBody>
+                    <TableBody>
+                        {this.state.rukovodioci.map(rukovodilac => {
+                            return (
+                                <TableRow key={'tr-key-' + rukovodilac.id} hover={true}>
+                                    <TableCell>{rukovodilac.ime}</TableCell>
+                                    <TableCell>{rukovodilac.prezime}</TableCell>
+                                    <TableCell>{rukovodilac.datumOd}</TableCell>
+                                    <TableCell>{rukovodilac.datumDo}</TableCell>
+                                    <TableCell>{rukovodilac.hasOwnProperty('zvanje') ? rukovodilac.zvanje.naziv : 'НЕПОЗНАТО'}</TableCell>
+                                    <TableCell>{(rukovodilac.hasOwnProperty('titula')) ? rukovodilac.titula.naziv : 'НЕПОТНАТО'}</TableCell>
+                                    <TableCell>{(rukovodilac.hasOwnProperty('tipRukovodioca')) ? rukovodilac.tipRukovodioca.naziv : 'НЕПОЗНАТО'}</TableCell>
+                                </TableRow>
+                            );
+                        })}
+                    </TableBody>
                     </Table>
                 </Paper>
-            </div>
+            </div >
         );
     }
 
     getPodaciOFakultetu = () => {
-        const common = (<h4>Подаци о факултету</h4>);
+        const common = (<h5>Подаци о факултету</h5>);
 
         if (this.state.fakultet.podaci.length === 0) {
             return (
                 <div>
-                    {common}
-                    Тренутно нема података о факултету.
+                    <Paper style={{ marginBottom: '20px', marginTop: '20px', padding: '20px' }}>
+                        {common}
+                        Тренутно нема додатних података о факултету.
+                    </Paper>
                 </div>
             );
         }
         return (
             <div>
-                {common}
-                <Paper>
+                <Paper style={{ marginBottom: '20px', padding: '20px' }}>
+                    {common}
                     <Table>
                         <TableHead>
                             <TableRow>
@@ -157,7 +161,7 @@ class PrikazIzabranogFakulteta extends Component {
                                 return (
                                     <TableRow key={'tr-key-' + podatak.id} hover={true}>
                                         <TableCell>{podatak.vrednost}</TableCell>
-                                        <TableCell>{podatak.vrstaPodatka.naziv}</TableCell>
+                                        <TableCell>{podatak.tipPodatka.naziv}</TableCell>
                                     </TableRow>
                                 );
                             })}
@@ -184,7 +188,7 @@ class PrikazIzabranogFakulteta extends Component {
             content = (
                 <div>
                     <h3 className="text-center">{this.state.fakultet.naziv}</h3>
-                    <Paper>
+                    <Paper style={{ marginTop: '20px', marginBottom: '20px' }}>
                         <Table>
                             <TableBody>
                                 <TableRow>
