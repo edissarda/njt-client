@@ -19,10 +19,8 @@ class ListaZvanja extends Component {
     state = {
         zvanja: null,
         hasError: false,
-        modal: {
-            prikaziModalKreirajZvanje: false,
-            prikaziModalIzmeniZvanje: false,
-        },
+        prikaziModalKreirajZvanje: false,
+        prikaziModalIzmeniZvanje: false,
         selektovanoZvanje: null,
         pretragaFilter: null,
     }
@@ -50,17 +48,13 @@ class ListaZvanja extends Component {
 
     zatvoriModalKreirajZvanje = () => {
         this.setState({
-            modal: {
-                prikaziModalKreirajZvanje: false,
-            }
+            prikaziModalKreirajZvanje: false,
         });
     }
 
     zatvoriModalIzmeniZvanje = () => {
         this.setState({
-            modal: {
-                prikaziModalIzmeniZvanje: false,
-            }
+            prikaziModalIzmeniZvanje: false,
         });
     }
 
@@ -75,9 +69,7 @@ class ListaZvanja extends Component {
 
     openCreateZvanjeModal = () => {
         this.setState({
-            modal: {
-                prikaziModalKreirajZvanje: true,
-            }
+            prikaziModalKreirajZvanje: true,
         });
     }
 
@@ -126,9 +118,7 @@ class ListaZvanja extends Component {
         }
 
         this.setState({
-            modal: {
-                prikaziModalIzmeniZvanje: true,
-            }
+            prikaziModalIzmeniZvanje: true,
         });
     }
 
@@ -175,7 +165,7 @@ class ListaZvanja extends Component {
 
                     <TooltipButton
                         tooltip="Измени звање"
-                        onClick={() => { this.otvoriIzmeniZvanjeModal() }}
+                        onClick={this.otvoriIzmeniZvanjeModal}
                     >
                         {editIcon}
                     </TooltipButton>
@@ -244,8 +234,8 @@ class ListaZvanja extends Component {
                 {content}
 
                 <Dialog
-                    open={this.state.modal.prikaziModalKreirajZvanje}
-                    onClose={() => this.setState({ modal: { prikaziModalKreirajZvanje: false } })}
+                    open={this.state.prikaziModalKreirajZvanje}
+                    onClose={() => this.setState({ prikaziModalKreirajZvanje: false })}
                 >
                     <div style={{ padding: '30px' }}>
                         <NapraviZvanje napraviZvanje={this.napraviZvanje} />
@@ -253,8 +243,8 @@ class ListaZvanja extends Component {
                 </Dialog>
 
                 <Dialog
-                    open={this.state.modal.prikaziModalIzmeniZvanje}
-                    onClose={() => this.setState({ modal: { prikaziModalIzmeniZvanje: false } })}
+                    open={this.state.prikaziModalIzmeniZvanje}
+                    onClose={() => this.setState({ prikaziModalIzmeniZvanje: false })}
                 >
                     <div style={{ padding: '30px' }}>
                         <IzmenaZvanja
@@ -263,7 +253,7 @@ class ListaZvanja extends Component {
                             azurirajZvanje={this.azurirajZvanje}
                         />
 
-                        <CloseButton onClick={() => this.setState({ modal: { prikaziModalIzmeniZvanje: false } })} />
+                        <CloseButton onClick={() => this.setState({ prikaziModalIzmeniZvanje: false })} />
                     </div>
                 </Dialog>
 

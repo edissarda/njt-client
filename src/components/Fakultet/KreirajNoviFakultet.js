@@ -117,6 +117,8 @@ class KreirajNoviFakultet extends Component {
 
         } catch (error) {
             this.setError();
+            console.log(error);
+            
         }
 
         this.setKrajUcitavanja();
