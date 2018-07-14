@@ -3,8 +3,10 @@ import axios from 'axios';
 import { loadingIcon } from '../common/loading';
 import PropTypes from 'prop-types';
 import { Growl } from '../../../node_modules/primereact/components/growl/Growl';
-import { Button, Table, TableHead, TableRow, TableCell, TableBody, Paper } from '@material-ui/core';
+import { Button, Table, TableHead, TableRow, TableCell, TableBody, Paper, Dialog } from '@material-ui/core';
 import { createIcon } from '../common/icons';
+import KreiranjeNovogRukovodioca from '../rukovodilac/KreiranjeNovogRukovodioca';
+import CloseButton from '../common/CloseButton';
 
 const uri = 'fakultet/'
 
@@ -15,11 +17,10 @@ class PrikazIzabranogFakulteta extends Component {
         fakultet: null,
         hasError: false,
         loading: true,
+        prikaziDialogZaDodavanjeRukovodioca: false,
     }
 
-    async componentWillMount() {
-        console.log(this.props.id);
-
+    async componentDidMount() {
         await axios.get(uri + this.props.id)
             .then(resp => {
                 if (resp.data.status === 200) {
@@ -76,10 +77,34 @@ class PrikazIzabranogFakulteta extends Component {
             <div>
                 <h4>Руководиоци</h4>
                 <p>
-                    <Button variant="text">
+                    <Button variant="text" onClick={() => {
+                        this.setState({
+                            prikaziDialogZaDodavanjeRukovodioca: true,
+                        });
+                    }}>
                         {createIcon}
                     </Button>
                 </p>
+
+                <Dialog
+                    maxWidth="md"
+                    fullWidth={true}
+                    open={this.state.prikaziDialogZaDodavanjeRukovodioca}
+                    onClose={() => {
+                        this.setState({
+                            prikaziDialogZaDodavanjeRukovodioca: false
+                        });
+                    }}
+                >
+                    <CloseButton onClick={() => {
+                        this.setState({
+                            prikaziDialogZaDodavanjeRukovodioca: false,
+                        })
+                    }} />
+                    <div style={{ padding: '30px' }}>
+                        <KreiranjeNovogRukovodioca fakultet={this.state.fakultet} />
+                    </div>
+                </Dialog>
             </div>
         );
         if (this.state.rukovodioci.length === 0) {
@@ -96,35 +121,35 @@ class PrikazIzabranogFakulteta extends Component {
         return (
             <div>
                 <Paper style={{ marginBottom: '20px', marginTop: '20px', padding: '20px' }}>
-                    { common }
+                    {common}
                     < Table >
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Име</TableCell>
-                            <TableCell>Презиме</TableCell>
-                            <TableCell>Датум од</TableCell>
-                            <TableCell>Датум до</TableCell>
-                            <TableCell>Звање</TableCell>
-                            <TableCell>Титула</TableCell>
-                            <TableCell>Тип руководиоца</TableCell>
-                        </TableRow>
-                    </TableHead>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Име</TableCell>
+                                <TableCell>Презиме</TableCell>
+                                <TableCell>Датум од</TableCell>
+                                <TableCell>Датум до</TableCell>
+                                <TableCell>Звање</TableCell>
+                                <TableCell>Титула</TableCell>
+                                <TableCell>Тип руководиоца</TableCell>
+                            </TableRow>
+                        </TableHead>
 
-                    <TableBody>
-                        {this.state.rukovodioci.map(rukovodilac => {
-                            return (
-                                <TableRow key={'tr-key-' + rukovodilac.id} hover={true}>
-                                    <TableCell>{rukovodilac.ime}</TableCell>
-                                    <TableCell>{rukovodilac.prezime}</TableCell>
-                                    <TableCell>{rukovodilac.datumOd}</TableCell>
-                                    <TableCell>{rukovodilac.datumDo}</TableCell>
-                                    <TableCell>{rukovodilac.hasOwnProperty('zvanje') ? rukovodilac.zvanje.naziv : 'НЕПОЗНАТО'}</TableCell>
-                                    <TableCell>{(rukovodilac.hasOwnProperty('titula')) ? rukovodilac.titula.naziv : 'НЕПОТНАТО'}</TableCell>
-                                    <TableCell>{(rukovodilac.hasOwnProperty('tipRukovodioca')) ? rukovodilac.tipRukovodioca.naziv : 'НЕПОЗНАТО'}</TableCell>
-                                </TableRow>
-                            );
-                        })}
-                    </TableBody>
+                        <TableBody>
+                            {this.state.rukovodioci.map(rukovodilac => {
+                                return (
+                                    <TableRow key={'tr-key-' + rukovodilac.id + Math.random()} hover={true}>
+                                        <TableCell>{rukovodilac.ime}</TableCell>
+                                        <TableCell>{rukovodilac.prezime}</TableCell>
+                                        <TableCell>{rukovodilac.datumOd}</TableCell>
+                                        <TableCell>{rukovodilac.datumDo}</TableCell>
+                                        <TableCell>{rukovodilac.hasOwnProperty('zvanje') ? rukovodilac.zvanje.naziv : 'НЕПОЗНАТО'}</TableCell>
+                                        <TableCell>{(rukovodilac.hasOwnProperty('titula')) ? rukovodilac.titula.naziv : 'НЕПОТНАТО'}</TableCell>
+                                        <TableCell>{(rukovodilac.hasOwnProperty('tipRukovodioca')) ? rukovodilac.tipRukovodioca.naziv : 'НЕПОЗНАТО'}</TableCell>
+                                    </TableRow>
+                                );
+                            })}
+                        </TableBody>
                     </Table>
                 </Paper>
             </div >
@@ -240,6 +265,7 @@ class PrikazIzabranogFakulteta extends Component {
                 <Growl ref={(el) => this.growl = el}></Growl>
 
                 {content}
+
 
             </div>
         );

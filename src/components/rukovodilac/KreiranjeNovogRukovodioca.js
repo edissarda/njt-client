@@ -15,8 +15,11 @@ class KreiranjeNovogRukovodioca extends Component {
         },
 
         selektovaniNastavnik: null,
-        selektovaniFakultet: null,
+        selektovaniFakultet: this.props.fakultet,
         selektovaniTipRukovodioca: null,
+
+        filterNastavnici: '',
+        filterFakulteti: '',
 
         loading: true,
         hasError: false,
@@ -78,15 +81,82 @@ class KreiranjeNovogRukovodioca extends Component {
 
         const nastavnik = { ...this.state.selektovaniNastavnik }
 
+        let tabelaZvanja = null;
+        let zvanje = null;
+        if (nastavnik.zvanja.length > 0) {
+            zvanje = nastavnik.zvanja[0].naziv;
+            tabelaZvanja = (
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Звање</TableCell>
+                            <TableCell>Датум од</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {
+                            nastavnik.zvanja.map((zvanje, index) => {
+                                let selected = false;
+                                if (index === 0) {
+                                    selected = true;
+                                }
+                                return (
+                                    <TableRow key={nastavnik.id + '-' + zvanje.id} selected={selected}>
+                                        <TableCell>{zvanje.naziv}</TableCell>
+                                        <TableCell>{zvanje.datumOd}</TableCell>
+                                    </TableRow>
+                                )
+                            })
+                        }
+                    </TableBody>
+                </Table>
+            );
+        }
+
+        let tabelaTitula = null;
+        let titula = null;
+        if (nastavnik.titule.length > 0) {
+            titula = nastavnik.titule[0].naziv;
+            tabelaTitula = (
+                <Table style={{ marginTop: '20px' }}>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Титула</TableCell>
+                            <TableCell>Датум од</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {
+                            nastavnik.titule.map((titula, index) => {
+                                let selected = false;
+                                if (index === 0) {
+                                    selected = true;
+                                }
+                                return (
+                                    <TableRow key={nastavnik.id + '-' + titula.id} selected={selected}>
+                                        <TableCell>{titula.naziv}</TableCell>
+                                        <TableCell>{titula.datumOd}</TableCell>
+                                    </TableRow>
+                                )
+                            })
+                        }
+                    </TableBody>
+                </Table>
+            );
+        }
+
         return (
             <Paper style={{ padding: '20px' }}>
-                <h5>{nastavnik.ime} {nastavnik.prezime}</h5>
-                <div>
-                    {nastavnik.zvanje != null ? nastavnik.zvanje.naziv : ''}
-                </div>
+                <div style={{ maxHeight: '300px', overflow: 'auto' }} >
+                    <h5>{zvanje} {titula} {nastavnik.ime} {nastavnik.prezime}</h5>
 
-                <div>
-                    {nastavnik.titula != null ? nastavnik.titula.naziv : ''}
+                    {
+                        tabelaZvanja
+                    }
+
+                    {
+                        tabelaTitula
+                    }
                 </div>
             </Paper>
         );
@@ -102,7 +172,7 @@ class KreiranjeNovogRukovodioca extends Component {
         let podaciFakulteta = null;
         if (fakultet.podaci.length > 0) {
             podaciFakulteta = (
-                <Table fullWidth style={{ marginTop: '10px' }}>
+                <Table style={{ marginTop: '10px' }}>
                     <TableHead>
                         <TableRow>
                             <TableCell>Вредност</TableCell>
@@ -113,7 +183,7 @@ class KreiranjeNovogRukovodioca extends Component {
                         {
                             fakultet.podaci.map(podatak => {
                                 return (
-                                    <TableRow key={podatak.id + '-' + fakultet.id} hover>
+                                    <TableRow key={podatak.id + '-' + fakultet.id}>
                                         <TableCell>{podatak.vrednost}</TableCell>
                                         <TableCell>{podatak.tipPodatka.naziv}</TableCell>
                                     </TableRow>
@@ -130,7 +200,7 @@ class KreiranjeNovogRukovodioca extends Component {
                 <div style={{ maxHeight: '300px', overflow: 'auto' }}>
                     <h5>{fakultet.naziv}</h5>
 
-                    <Table fullWidth>
+                    <Table>
                         <TableBody>
                             <TableRow>
                                 <TableCell>Научна област</TableCell>
@@ -165,6 +235,19 @@ class KreiranjeNovogRukovodioca extends Component {
                         <h5>Подаци о руководиоцу</h5>
                         <div className="row">
                             <div className="col-4">
+
+                                <TextField
+                                    onChange={(e) => {
+                                        const filter = e.target.value.toLowerCase();
+                                        this.setState({
+                                            filterNastavnici: filter,
+                                        });
+                                    }}
+                                    value={this.state.filterNastavnici}
+                                    label="Претрага"
+                                    style={{ marginBottom: '20px' }}
+                                />
+
                                 <Select
                                     fullWidth
                                     value='NastavnikSelect'
@@ -187,24 +270,56 @@ class KreiranjeNovogRukovodioca extends Component {
 
                                     }}
                                     renderValue={() => {
-                                        const selektovaniNastavnik = { ...this.state.selektovaniNastavnik }
-                                        if (selektovaniNastavnik != null) {
-                                            return selektovaniNastavnik.ime;
+                                        if (this.state.selektovaniNastavnik === null) {
+                                            return '';
                                         }
-                                        return '';
+
+                                        const selektovaniNastavnik = { ...this.state.selektovaniNastavnik }
+
+                                        let zvanje = '';
+                                        let titula = '';
+
+                                        if (selektovaniNastavnik.zvanja.length > 0) {
+                                            zvanje = selektovaniNastavnik.zvanja[0].naziv + ' ';
+                                        }
+
+                                        if (selektovaniNastavnik.titule.length > 0) {
+                                            titula = selektovaniNastavnik.titule[0].naziv + ' ';
+                                        }
+
+                                        return zvanje + titula + selektovaniNastavnik.ime + ' ' + selektovaniNastavnik.prezime;
                                     }}
                                 >
 
                                     {
-                                        this.state.ucitaniPodaci.nastavnici.map(nastavnik => {
-                                            return (
-                                                <MenuItem
-                                                    key={nastavnik.id}
-                                                    value={nastavnik.id}>
-                                                    {nastavnik.zvanje != null ? nastavnik.zvanje.naziv : ''} {nastavnik.ime} {nastavnik.prezime}
-                                                </MenuItem>
-                                            );
-                                        })
+                                        this.state.ucitaniPodaci.nastavnici
+                                            .filter(nastavnik => {
+                                                const filter = this.state.filterNastavnici.trim().toLowerCase();
+                                                if (filter === '') {
+                                                    return true;
+                                                }
+                                                return nastavnik.ime.trim().toLowerCase().includes(filter)
+                                                    || nastavnik.prezime.trim().toLowerCase().includes(filter);
+                                            })
+                                            .map(nastavnik => {
+                                                let zvanje = '';
+                                                let titula = '';
+
+                                                if (nastavnik.zvanja.length > 0) {
+                                                    zvanje = nastavnik.zvanja[0].naziv + ' ';
+                                                }
+
+                                                if (nastavnik.titule.length > 0) {
+                                                    titula = nastavnik.titule[0].naziv + ' ';
+                                                }
+                                                return (
+                                                    <MenuItem
+                                                        key={nastavnik.id}
+                                                        value={nastavnik.id}>
+                                                        {zvanje} {titula} {nastavnik.ime} {nastavnik.prezime}
+                                                    </MenuItem>
+                                                );
+                                            })
                                     }
                                 </Select>
                             </div>
@@ -238,6 +353,20 @@ class KreiranjeNovogRukovodioca extends Component {
                         <div className="row">
 
                             <div className="col-4">
+
+
+                                <TextField
+                                    onChange={(e) => {
+                                        const filter = e.target.value.toLowerCase();
+                                        this.setState({
+                                            filterFakulteti: filter,
+                                        });
+                                    }}
+                                    value={this.state.filterFakulteti}
+                                    label="Претрага"
+                                    style={{ marginBottom: '20px' }}
+                                />
+
                                 <Select
                                     fullWidth
                                     value='FakultetSelect'
@@ -259,23 +388,33 @@ class KreiranjeNovogRukovodioca extends Component {
                                         }
                                     }}
                                     renderValue={() => {
-                                        const selektovaniFakultet = { ...this.state.selektovaniFakultet }
-                                        if (selektovaniFakultet != null) {
-                                            return selektovaniFakultet.naziv;
+                                        if (this.state.selektovaniFakultet === null) {
+                                            return '';
                                         }
-                                        return '';
+                                        return this.state.selektovaniFakultet.naziv;
                                     }}
                                 >
                                     {
-                                        this.state.ucitaniPodaci.fakulteti.map(fakultet => {
-                                            return (
-                                                <MenuItem
-                                                    key={fakultet.id}
-                                                    value={fakultet.id}>
-                                                    {fakultet.naziv}
-                                                </MenuItem>
-                                            );
-                                        })
+                                        this.state.ucitaniPodaci.fakulteti
+                                            .filter(f => {
+                                                const filter = this.state.filterFakulteti.trim().toLowerCase();
+                                                if (filter === '') {
+                                                    return true;
+                                                }
+
+                                                return f.naziv.toLowerCase().includes(filter)
+                                                    || f.maticniBroj.toLowerCase().includes(filter)
+                                                    || f.poreskiBroj.toLowerCase().includes(filter);
+                                            })
+                                            .map(fakultet => {
+                                                return (
+                                                    <MenuItem
+                                                        key={fakultet.id}
+                                                        value={fakultet.id}>
+                                                        {fakultet.naziv}
+                                                    </MenuItem>
+                                                );
+                                            })
                                     }
                                 </Select>
 
@@ -419,6 +558,10 @@ class KreiranjeNovogRukovodioca extends Component {
             </div>
         );
     }
+}
+
+KreiranjeNovogRukovodioca.defaultProps = {
+    fakultet: null,
 }
 
 export default KreiranjeNovogRukovodioca;

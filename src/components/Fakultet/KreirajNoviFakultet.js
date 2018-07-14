@@ -561,9 +561,9 @@ class KreirajNoviFakultet extends Component {
                     }
 
                     <div style={{ marginTop: '50px' }}>
-                        <Button type='submit' fullWidth variant="contained" color="default">
-                            Сачувај
-                    </Button>
+                        <Button type='submit' variant="contained">
+                            Сачувај факултет
+                        </Button>
                     </div>
 
                 </form >

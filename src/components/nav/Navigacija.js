@@ -15,8 +15,8 @@ class Navigacija extends Component {
                             <NavLink className="nav-link dropdown-toggle" data-toggle="dropdown" to="#">Шифарници</NavLink>
                             <div className="dropdown-menu">
                                 <NavLink to="/zvanje" className="nav-link dropdown-item">Звања</NavLink>
-                                <NavLink to="/tip-rukovodioca" className="nav-link dropdown-item">Типови руководиоца</NavLink>
-                                <NavLink to="/vrsta-organizacije" className="nav-link dropdown-item">Врсте организација</NavLink>
+                                <NavLink to="/tipRukovodioca" className="nav-link dropdown-item">Типови руководиоца</NavLink>
+                                <NavLink to="/vrstaOrganizacije" className="nav-link dropdown-item">Врсте организација</NavLink>
                                 <NavLink to="/naucna-oblast" className="nav-link dropdown-item">Научне области</NavLink>
                                 <NavLink to="/titula" className="nav-link dropdown-item">Титуле</NavLink>
                             </div>
@@ -25,14 +25,9 @@ class Navigacija extends Component {
                         <li className="nav-item dropdown">
                             <NavLink className="nav-link dropdown-toggle" data-toggle="dropdown" to="#">Факултет</NavLink>
                             <div className="dropdown-menu">
-                                <NavLink to="/fakultet-kreiraj" className="nav-link dropdown-item">Креирај нови</NavLink>
-                                <NavLink to="/fakultet" className="nav-link dropdown-item">Приказ свих</NavLink>
+                                <NavLink to="/fakultet" className="nav-link dropdown-item">Приказ</NavLink>
+                                <NavLink to="/dodajRukovodioca" className="nav-link dropdown-item">Додај руководиоца</NavLink>
                             </div>
-                        </li>
-
-
-                        <li className="nav-item">
-                            <NavLink to="/rukovodilac-kreiraj" className="nav-link">Руководилац</NavLink>
                         </li>
 
                         <li className="nav-item">

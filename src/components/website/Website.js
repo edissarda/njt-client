@@ -14,7 +14,6 @@ import 'primereact/resources/themes/omega/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'font-awesome/css/font-awesome.css';
 
-
 class WebSite extends Component {
     render() {
         return (
@@ -34,17 +33,18 @@ function Sadrzaj() {
             <div className="row">
                 <div className="col-12">
                     <Switch>
-                        <Route path="/" exact render={() => <h5>Здраво</h5>} />
+                        <Route path="/" exact render={(props) => <Home {...props} />} />
                         <Route path="/zvanje" exact component={PrikazSvihZvanja} />
-                        <Route path="/tip-rukovodioca" exact component={PrikazTipovaRukovodioca} />
-                        <Route path="/vrsta-organizacije" exact component={PrikazVrstaOrganizacija} />
+                        <Route path="/tipRukovodioca" exact component={PrikazTipovaRukovodioca} />
+                        <Route path="/vrstaOrganizacije" exact component={PrikazVrstaOrganizacija} />
                         <Route path="/naucna-oblast" exact component={PrikazNaucnihOblasti} />
                         <Route path="/titula" exact component={PrikazSvihTitula} />
 
                         <Route path="/fakultet" exact component={PrikazSvihFakulteta} />
-                        <Route path="/fakultet-kreiraj" exact component={KreirajNoviFakultet} />
-                        <Route path="/rukovodilac-kreiraj" exact component={KreiranjeNovogRukovodioca} />
+                        <Route path="/kreirajFakultet" exact component={KreirajNoviFakultet} />
+                        <Route path="/dodajRukovodioca" exact component={KreiranjeNovogRukovodioca} />
                         <Route path="/kontakt" exact component={() => <div>Контакт страница</div>} />
+                        <Route path="/ghoa" component={Home} />
 
                         <Route render={() => <div className="col-6 col-offset-6"><h1>Грешка 404</h1></div>} />
                     </Switch>
@@ -53,6 +53,19 @@ function Sadrzaj() {
         </div>
     );
 }
+
+class Home extends React.Component {
+
+    render() {
+        return (
+            <div>
+                Здраво
+            </div>
+        );
+    }
+
+}
+
 
 function Footer() {
     return (

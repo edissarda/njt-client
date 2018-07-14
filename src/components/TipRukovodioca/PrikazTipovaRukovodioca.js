@@ -3,8 +3,6 @@ import axios from 'axios';
 import GenerickiPrikaz from './../common/GenerickiPrikaz';
 import { loadingIcon } from './../common/loading';
 
-axios.defaults.baseURL = 'http://localhost:8080/';
-
 const uri = 'tip-rukovodioca';
 
 class PrikazTipovaRukovodioca extends Component {
