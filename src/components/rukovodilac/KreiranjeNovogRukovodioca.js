@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Select, MenuItem, Paper, TextField, Table, TableBody, TableRow, TableCell, TableHead, Button } from '@material-ui/core';
 import TooltipButton from '../common/TooltipButton';
 import { closeIcon } from '../common/icons';
+import { Growl } from 'primereact/components/growl/Growl';
 
 class KreiranjeNovogRukovodioca extends Component {
 
@@ -27,8 +28,8 @@ class KreiranjeNovogRukovodioca extends Component {
 
 
     async componentDidMount() {
-        await this.ucitajPodatke('fakultet', 'fakulteti');
-        await this.ucitajPodatke('tip-rukovodioca', 'tipoviRukovodioca');
+        this.ucitajPodatke('fakultet', 'fakulteti');
+        this.ucitajPodatke('tip-rukovodioca', 'tipoviRukovodioca');
         await this.ucitajPodatke('nastavnik', 'nastavnici');
         this.setKrajUcitavanjaPodataka();
     }
@@ -71,7 +72,45 @@ class KreiranjeNovogRukovodioca extends Component {
     kreirajRukovodioca = (e) => {
         e.preventDefault();
 
-        alert('TODO :)');
+        const fakultet = {
+            ...this.state.selektovaniFakultet
+        }
+
+        const nastavnik = {
+            ...this.state.selektovaniNastavnik
+        }
+
+        const tipRukovodioca = {
+            ...this.state.selektovaniTipRukovodioca
+        }
+
+        const rukovodilac = {
+            datumOd: e.target.datumOd.value,
+            datumDo: e.target.datumDo.value,
+            fakultet,
+            nastavnik,
+            tipRukovodioca,
+        }
+
+        this.sacuvajRukovodioca(rukovodilac);
+    }
+
+    sacuvajRukovodioca = (rukovodilac) => {
+        axios.post('rukovodilac', rukovodilac)
+            .then((resp) => {
+                if (resp.data.status === 200) {
+                    this.showMessage('Руководилац је успешно постављен');
+                } else {
+                    this.showMessage(resp.data.message, 'error');
+                }
+            }).catch(err => {
+                this.showMessage('Дошло је до грешке. Руководилац није постављен. ' + err, 'error');
+            });
+
+    }
+
+    showMessage = (msg, severity = 'success', detail = null) => {
+        this.growl.show({ severity: severity, summary: msg, detail: detail });
     }
 
     renderPodatkeONastavniku = () => {
@@ -500,6 +539,7 @@ class KreiranjeNovogRukovodioca extends Component {
                                 <TextField
                                         fullWidth
                                         type='date'
+                                        id="datumOd"
                                     />
                                 </div>
 
@@ -508,6 +548,7 @@ class KreiranjeNovogRukovodioca extends Component {
                                 <TextField
                                         fullWidth
                                         type='date'
+                                        id="datumDo"
                                     />
                                 </div>
 
@@ -544,6 +585,8 @@ class KreiranjeNovogRukovodioca extends Component {
             content = (
                 <div>
                     {this.renderContent()}
+
+
                 </div>
             );
         }
@@ -554,6 +597,8 @@ class KreiranjeNovogRukovodioca extends Component {
                 <h2 className="text-center">Постављање руководиоца факултета</h2>
 
                 {content}
+
+                <Growl ref={(el) => { this.growl = el }} style={{ position: 'absolute' }} position="bottomright" />
 
             </div>
         );

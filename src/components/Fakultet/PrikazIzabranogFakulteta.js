@@ -44,11 +44,8 @@ class PrikazIzabranogFakulteta extends Component {
                 this.setHasError();
             });
 
-        const error = this.state.hasError;
-
         this.setState({
             loading: false,
-            hasError: error || false,
         });
     }
 
@@ -87,7 +84,7 @@ class PrikazIzabranogFakulteta extends Component {
                 </p>
 
                 <Dialog
-                    maxWidth="md"
+                    maxWidth={false}
                     fullWidth={true}
                     open={this.state.prikaziDialogZaDodavanjeRukovodioca}
                     onClose={() => {
@@ -138,7 +135,7 @@ class PrikazIzabranogFakulteta extends Component {
                         <TableBody>
                             {this.state.rukovodioci.map(rukovodilac => {
                                 return (
-                                    <TableRow key={'tr-key-' + rukovodilac.id + Math.random()} hover={true}>
+                                    <TableRow key={'tr-' + rukovodilac.id + Math.random()}>
                                         <TableCell>{rukovodilac.ime}</TableCell>
                                         <TableCell>{rukovodilac.prezime}</TableCell>
                                         <TableCell>{rukovodilac.datumOd}</TableCell>
@@ -184,7 +181,7 @@ class PrikazIzabranogFakulteta extends Component {
                         <TableBody>
                             {this.state.fakultet.podaci.map(podatak => {
                                 return (
-                                    <TableRow key={'tr-key-' + podatak.id} hover={true}>
+                                    <TableRow key={'tr-key-' + podatak.id}>
                                         <TableCell>{podatak.vrednost}</TableCell>
                                         <TableCell>{podatak.tipPodatka.naziv}</TableCell>
                                     </TableRow>
