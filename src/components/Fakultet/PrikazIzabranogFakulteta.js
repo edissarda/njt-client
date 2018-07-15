@@ -3,10 +3,11 @@ import axios from 'axios';
 import { loadingIcon } from '../common/loading';
 import PropTypes from 'prop-types';
 import { Growl } from '../../../node_modules/primereact/components/growl/Growl';
-import { Button, Table, TableHead, TableRow, TableCell, TableBody, Paper, Dialog } from '@material-ui/core';
+import { Switch, Table, TableHead, TableRow, TableCell, TableBody, Paper, Dialog, Tooltip } from '@material-ui/core';
 import { createIcon } from '../common/icons';
 import KreiranjeNovogRukovodioca from '../rukovodilac/KreiranjeNovogRukovodioca';
 import CloseButton from '../common/CloseButton';
+import TooltipButton from './../common/TooltipButton'
 
 const uri = 'fakultet/'
 
@@ -18,6 +19,7 @@ class PrikazIzabranogFakulteta extends Component {
         hasError: false,
         loading: true,
         prikaziDialogZaDodavanjeRukovodioca: false,
+        filterSamoAktivni: false,
     }
 
     async componentDidMount() {
@@ -49,6 +51,20 @@ class PrikazIzabranogFakulteta extends Component {
         });
     }
 
+    ucitajRukovodioce = async (samoAktivni = false) => {
+        try {
+            const resp = await axios.get(uri + this.props.id + '/rukovodioci?samoAktivni=' + samoAktivni);
+
+            if (resp.data.status === 200) {
+                this.setRukovodoci(resp.data.data);
+            } else {
+                this.setHasError();
+            }
+        } catch (error) {
+            this.setHasError();
+        }
+    }
+
     setFakultet = (data) => {
         this.setState({
             fakultet: data,
@@ -74,13 +90,33 @@ class PrikazIzabranogFakulteta extends Component {
             <div>
                 <h4>Руководиоци</h4>
                 <p>
-                    <Button variant="text" onClick={() => {
-                        this.setState({
-                            prikaziDialogZaDodavanjeRukovodioca: true,
-                        });
-                    }}>
+                    <TooltipButton
+                        tooltip='Постави новог руководиоца'
+                        onClick={() => {
+                            this.setState({
+                                prikaziDialogZaDodavanjeRukovodioca: true,
+                            });
+                        }}
+                    >
                         {createIcon}
-                    </Button>
+                    </TooltipButton>
+
+                    <Tooltip title='Прикажи само активне руководиоце'>
+                        <Switch
+                            checkedIconcked={this.state.checkedF}
+                            onChange={() => {
+                                const noviFilter = !this.state.filterSamoAktivni;
+                                this.setState({
+                                    filterSamoAktivni: noviFilter,
+                                })
+
+                                this.ucitajRukovodioce(noviFilter);
+                            }}
+                            value="Само активни"
+                            id="samoAktivni"
+                            color="primary"
+                        />
+                    </Tooltip>
                 </p>
 
                 <Dialog
@@ -102,7 +138,7 @@ class PrikazIzabranogFakulteta extends Component {
                         <KreiranjeNovogRukovodioca fakultet={this.state.fakultet} />
                     </div>
                 </Dialog>
-            </div>
+            </div >
         );
         if (this.state.rukovodioci.length === 0) {
             return (
@@ -251,7 +287,9 @@ class PrikazIzabranogFakulteta extends Component {
 
 
 
-                    {this.getRukovodioci()}
+                    {
+                        this.getRukovodioci()
+                    }
                 </div>
             );
         }

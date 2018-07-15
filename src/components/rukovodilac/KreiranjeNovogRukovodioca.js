@@ -110,7 +110,7 @@ class KreiranjeNovogRukovodioca extends Component {
     }
 
     showMessage = (msg, severity = 'success', detail = null) => {
-        this.growl.show({ severity: severity, summary: msg, detail: detail });
+        this.growl.show({ severity: severity, summary: msg, detail: detail, life: 6000 });
     }
 
     renderPodatkeONastavniku = () => {
@@ -598,7 +598,7 @@ class KreiranjeNovogRukovodioca extends Component {
 
                 {content}
 
-                <Growl ref={(el) => { this.growl = el }} style={{ position: 'absolute' }} position="bottomright" />
+                <Growl ref={(el) => { this.growl = el }} /*style={{ position: 'absolute' }} position="bottomright"*/ />
 
             </div>
         );
