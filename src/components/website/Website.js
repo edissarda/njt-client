@@ -13,6 +13,7 @@ import KreiranjeNovogRukovodioca from '../rukovodilac/KreiranjeNovogRukovodioca'
 import 'primereact/resources/themes/omega/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'font-awesome/css/font-awesome.css';
+import PrikazSvihNastavnika from '../Nastavnik/PrikazSvihNastavnika';
 
 class WebSite extends Component {
     render() {
@@ -41,6 +42,7 @@ function Sadrzaj() {
                         <Route path="/titula" exact component={PrikazSvihTitula} />
 
                         <Route path="/fakultet" exact component={PrikazSvihFakulteta} />
+                        <Route path="/nastavnik" exact component={PrikazSvihNastavnika} />
                         <Route path="/kreirajFakultet" exact component={KreirajNoviFakultet} />
                         <Route path="/dodajRukovodioca" exact component={KreiranjeNovogRukovodioca} />
                         <Route path="/kontakt" exact component={() => <div>Контакт страница</div>} />

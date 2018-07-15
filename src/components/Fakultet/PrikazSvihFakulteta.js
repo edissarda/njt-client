@@ -107,16 +107,17 @@ class PrikazSvihFakulteta extends Component {
                     </TooltipButton>
 
                     <TooltipButton
+                        onClick={() => { this.setState({ prikaziKreirajFakultetDialog: true }) }}
+                        tooltip="Креирај нови факултет">
+                        {createIcon}
+                    </TooltipButton>
+
+                    <TooltipButton
                         onClick={this.prikaziPodatkeOFakultetu}
                         tooltip="Приказ података о факултету">
                         {viewIcon}
                     </TooltipButton>
 
-                    <TooltipButton
-                        onClick={() => { this.setState({ prikaziKreirajFakultetDialog: true }) }}
-                        tooltip="Креирај нови факултет">
-                        {createIcon}
-                    </TooltipButton>
 
                     {/* <Button label="" className="ui-button-warning" onClick={this.otvoriIzmeniZvanjeModal}>
                         {editIcon}

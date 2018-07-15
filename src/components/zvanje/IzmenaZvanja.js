@@ -18,7 +18,7 @@ class IzmenaZvanja extends Component {
     render() {
         return (
             <React.Fragment>
-                <h2 className="text-center">Измена звања</h2>
+                <h4 className="text-center">Измена звања</h4>
 
                 <form onSubmit={this.handleSubmit} style={{ marginTop: '30px' }}>
 

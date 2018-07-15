@@ -22,11 +22,15 @@ class Navigacija extends Component {
                             </div>
                         </li>
 
+                        <li className="nav-item">
+                            <NavLink to="/nastavnik" className="nav-link">Наставници</NavLink>
+                        </li>
+
                         <li className="nav-item dropdown">
                             <NavLink className="nav-link dropdown-toggle" data-toggle="dropdown" to="#">Факултет</NavLink>
                             <div className="dropdown-menu">
-                                <NavLink to="/fakultet" className="nav-link dropdown-item">Приказ</NavLink>
-                                <NavLink to="/dodajRukovodioca" className="nav-link dropdown-item">Додај руководиоца</NavLink>
+                                <NavLink to="/fakultet" className="nav-link dropdown-item">Приказ факултета</NavLink>
+                                <NavLink to="/dodajRukovodioca" className="nav-link dropdown-item">Постави руководиоца</NavLink>
                             </div>
                         </li>
 

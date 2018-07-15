@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { loadingIcon } from '../common/loading'
 import axios from 'axios';
-import { Select, MenuItem, Paper, TextField, Table, TableBody, TableRow, TableCell, TableHead, Button } from '@material-ui/core';
+import { Select, MenuItem, Paper, TextField, Table, TableBody, TableRow, TableCell, TableHead, Button, FormHelperText } from '@material-ui/core';
 import TooltipButton from '../common/TooltipButton';
 import { closeIcon } from '../common/icons';
 import { Growl } from 'primereact/components/growl/Growl';
@@ -110,7 +110,7 @@ class KreiranjeNovogRukovodioca extends Component {
     }
 
     showMessage = (msg, severity = 'success', detail = null) => {
-        this.growl.show({ severity: severity, summary: msg, detail: detail, life: 6000 });
+        this.growl.show({ severity: severity, summary: msg, detail: detail, life: 10000 });
     }
 
     renderPodatkeONastavniku = () => {
@@ -541,6 +541,7 @@ class KreiranjeNovogRukovodioca extends Component {
                                         type='date'
                                         id="datumOd"
                                     />
+                                    <FormHelperText>Датум од када руководилац постаје активан</FormHelperText>
                                 </div>
 
                                 <div>
@@ -550,6 +551,7 @@ class KreiranjeNovogRukovodioca extends Component {
                                         type='date'
                                         id="datumDo"
                                     />
+                                    <FormHelperText>Датум до када је руководилац активан</FormHelperText>
                                 </div>
 
                             </div>

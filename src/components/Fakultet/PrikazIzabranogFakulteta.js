@@ -4,7 +4,7 @@ import { loadingIcon } from '../common/loading';
 import PropTypes from 'prop-types';
 import { Growl } from '../../../node_modules/primereact/components/growl/Growl';
 import { Switch, Table, TableHead, TableRow, TableCell, TableBody, Paper, Dialog, Tooltip } from '@material-ui/core';
-import { createIcon } from '../common/icons';
+import { createIcon, refreshIcon } from '../common/icons';
 import KreiranjeNovogRukovodioca from '../rukovodilac/KreiranjeNovogRukovodioca';
 import CloseButton from '../common/CloseButton';
 import TooltipButton from './../common/TooltipButton'
@@ -100,6 +100,15 @@ class PrikazIzabranogFakulteta extends Component {
                     >
                         {createIcon}
                     </TooltipButton>
+
+                    <TooltipButton
+                        tooltip='Освежи руководиоце'
+                        onClick={() => {
+                            this.ucitajRukovodioce(this.state.filterSamoAktivni);
+                        }}
+                        >
+                            {refreshIcon}
+                        </TooltipButton>
 
                     <Tooltip title='Прикажи само активне руководиоце'>
                         <Switch

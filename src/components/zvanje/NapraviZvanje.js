@@ -22,7 +22,7 @@ class NapraviZvanje extends Component {
     render() {
         return (
             <div className="col-12">
-                <h2 className="text-center">Креирање новог звања</h2>
+                <h4 className="text-center">Креирање новог звања</h4>
 
                 <form method="POST" onSubmit={this.napraviZvanje}>
 
