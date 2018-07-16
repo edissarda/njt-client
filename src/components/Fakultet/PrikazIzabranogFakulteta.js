@@ -154,7 +154,7 @@ class PrikazIzabranogFakulteta extends Component {
                 <div>
                     <Paper style={{ marginBottom: '20px', marginTop: '20px', padding: '20px' }}>
                         {common}
-                        Факултет нема руководиоца.
+                        Факултет нема {this.state.filterSamoAktivni ? 'активних' : ''} руководиоца.
                     </Paper>
                 </div>
             );

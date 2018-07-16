@@ -171,6 +171,7 @@ class PrikazSvihNastavnika extends Component {
                     <Column field="id" header="ИД" sortable={true} style={{ width: '10%' }} />
                     <Column field="ime" header="Име" sortable={true} />
                     <Column field="prezime" header="Презиме" sortable={true} />
+                    <Column field="brojRadneKnjizice" header="Број радне књижице" sortable={true} />
                 </DataTable>
 
                 {

@@ -153,7 +153,7 @@ class PrikazIzabranogNastavnika extends Component {
             content = (
                 <React.Fragment>
                     <h3 className="text-center" style={{ marginBottom: '20px' }}>
-                        {this.state.nastavnik.ime} {this.state.nastavnik.prezime}
+                        {this.state.nastavnik.ime} {this.state.nastavnik.prezime} ({this.state.nastavnik.brojRadneKnjizice})
                     </h3>
 
                     <div className="text-center">

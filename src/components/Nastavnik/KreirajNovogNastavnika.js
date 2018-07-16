@@ -13,6 +13,7 @@ class KreirajNovogNastavnika extends Component {
         const nastavnik = {
             ime: e.target.ime.value.trim(),
             prezime: e.target.prezime.value.trim(),
+            brojRadneKnjizice: e.target.brojRadneKnjizice.value.trim(),
         }
 
         this.sacuvajNastavnika(nastavnik);
@@ -49,6 +50,13 @@ class KreirajNovogNastavnika extends Component {
                     <TextField
                         id='prezime'
                         label='Презиме'
+                        autoComplete="off"
+                        fullWidth
+                    />
+
+                    <TextField
+                        id="brojRadneKnjizice"
+                        label="Број радне књижице"
                         autoComplete="off"
                         fullWidth
                     />
