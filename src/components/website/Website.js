@@ -9,11 +9,12 @@ import PrikazNaucnihOblasti from '../NaucnaOblast/PrikazNaucnihOblasti';
 import KreirajNoviFakultet from '../Fakultet/KreirajNoviFakultet';
 import PrikazSvihTitula from '../Titula/PrikazSvihTitula';
 import KreiranjeNovogRukovodioca from '../rukovodilac/KreiranjeNovogRukovodioca';
+import PrikazSvihNastavnika from '../Nastavnik/PrikazSvihNastavnika';
+import Prijava from './../Prijava/Prijava'
 
 import 'primereact/resources/themes/omega/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'font-awesome/css/font-awesome.css';
-import PrikazSvihNastavnika from '../Nastavnik/PrikazSvihNastavnika';
 
 class WebSite extends Component {
     render() {
@@ -46,6 +47,8 @@ function Sadrzaj() {
                         <Route path="/nastavnik" exact component={PrikazSvihNastavnika} />
                         <Route path="/dodajRukovodioca" exact component={KreiranjeNovogRukovodioca} />
                         <Route path="/kontakt" exact component={() => <div>Контакт страница</div>} />
+
+                        <Route path="/login" exact component={Prijava} />
 
                         <Route render={() => <div className="col-6 col-offset-6"><h1>Грешка 404</h1></div>} />
                     </Switch>

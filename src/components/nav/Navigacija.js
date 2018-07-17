@@ -42,6 +42,12 @@ class Navigacija extends Component {
                         </li>
 
                     </ul>
+
+                    <ul className="navbar-nav ml-auto">
+                        <li className="nav-item">
+                            <NavLink to="/login" className="nav-link">Пријава</NavLink>
+                        </li>
+                    </ul>
                 </nav>
 
             </div>
