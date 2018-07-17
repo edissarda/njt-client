@@ -5,10 +5,10 @@ import PrikazIzabranogNastavnika from './PrikazIzabranogNastavnika';
 import { Select, MenuItem, Button } from '@material-ui/core';
 import { Growl } from 'primereact/components/growl/Growl'
 
-class DodajZvanjeNastavniku extends Component {
+class DodajTituluNastavniku extends Component {
     state = {
-        zvanja: [],
-        izabranoZvanje: null,
+        titule: [],
+        izabranaTitula: null,
 
         nastavnik: null,
 
@@ -22,8 +22,8 @@ class DodajZvanjeNastavniku extends Component {
 
     ucitajPotrebnePodatke = async () => {
         this.setState({
-            zvanja: [],
-            izabranoZvanje: null,
+            titule: [],
+            izabranaTitula: null,
 
             nastavnik: null,
 
@@ -31,7 +31,7 @@ class DodajZvanjeNastavniku extends Component {
             hasError: false,
         });
 
-        await this.loadData('zvanje', 'zvanja');
+        await this.loadData('titula', 'titule');
         await this.loadData('nastavnik/' + this.props.nastavnikId, 'nastavnik');
 
         this.setState({
@@ -74,22 +74,22 @@ class DodajZvanjeNastavniku extends Component {
         this.growl.show({ severity: severity, summary: msg, detail: detail, life: 10000 });
     }
 
-    dodajZvanje = (e) => {
+    dodajTitulu = (e) => {
         e.preventDefault();
 
-        if (this.state.izabranoZvanje === null) {
-            this.showMessage('Изаберите звање', 'error');
+        if (this.state.izabranaTitula === null) {
+            this.showMessage('Изаберите титулу', 'error');
             return false;
         }
 
-        const zvanje = {
-            ...this.state.izabranoZvanje
+        const titula = {
+            ...this.state.izabranaTitula
         }
 
-        axios.post('nastavnik/' + this.state.nastavnik.id + '/zvanje', zvanje)
+        axios.post('nastavnik/' + this.state.nastavnik.id + '/titula', titula)
             .then(resp => {
                 if (resp.data.status === 200) {
-                    this.showMessage('Звање је успешно постављено');
+                    this.showMessage('Титула је успешно постављена');
 
                     setTimeout(this.ucitajPotrebnePodatke, 1000);
 
@@ -105,7 +105,7 @@ class DodajZvanjeNastavniku extends Component {
         return (
             <React.Fragment>
 
-                <form onSubmit={this.dodajZvanje}>
+                <form onSubmit={this.dodajTitulu}>
                     <div className="row">
 
                         <div className="col-12">
@@ -114,37 +114,40 @@ class DodajZvanjeNastavniku extends Component {
                             </div>
                         </div>
 
+                        <div className="col-6">
+                        </div>
+
                         <div className="col-4">
-                            <h3>Ново звање</h3>
+                            <h3>Нова титула</h3>
 
                             <Select
                                 fullWidth
                                 renderValue={() => {
-                                    return this.state.izabranoZvanje != null ? this.state.izabranoZvanje.naziv : '';
+                                    return this.state.izabranaTitula != null ? this.state.izabranaTitula.naziv : '';
                                 }}
                                 onChange={(e) => {
-                                    const zvanjeId = e.target.value;
-                                    const zvanjeIndex = this.state.zvanja.findIndex(z => z.id === zvanjeId);
-                                    if (zvanjeIndex >= 0) {
-                                        const zvanje = {
-                                            ...this.state.zvanja[zvanjeIndex]
+                                    const titulaId = e.target.value;
+                                    const titulaIndex = this.state.titule.findIndex(t => t.id === titulaId);
+                                    if (titulaIndex >= 0) {
+                                        const titula = {
+                                            ...this.state.titule[titulaIndex]
                                         }
                                         this.setState({
-                                            izabranoZvanje: zvanje
+                                            izabranaTitula: titula
                                         })
                                     } else {
                                         this.setState({
-                                            izabranoZvanje: null,
+                                            izabranaTitula: null,
                                         })
                                     }
                                 }}
-                                value="Zvanje"
+                                value="Titula"
                             >
                                 {
-                                    this.state.zvanja.map(zvanje => {
+                                    this.state.titule.map(titula => {
                                         return (
-                                            <MenuItem key={zvanje.id} value={zvanje.id}>
-                                                {zvanje.naziv}
+                                            <MenuItem key={titula.id} value={titula.id}>
+                                                {titula.naziv}
                                             </MenuItem>
                                         )
                                     })
@@ -154,9 +157,11 @@ class DodajZvanjeNastavniku extends Component {
                         </div>
 
                         <Button type="submit" variant="contained" style={{ marginTop: '30px' }}>
-                            Додај звање
+                            Додај титулу
                         </Button>
                     </div>
+
+
 
                 </form>
             </React.Fragment>
@@ -188,7 +193,7 @@ class DodajZvanjeNastavniku extends Component {
 
         return (
             <div>
-                <h2 className="text-center">Постави ново звање наставнику</h2>
+                <h2 className="text-center">Постави нову титулу наставнику</h2>
 
                 {content}
 
@@ -199,8 +204,8 @@ class DodajZvanjeNastavniku extends Component {
     }
 }
 
-DodajZvanjeNastavniku.defaultProps = {
+DodajTituluNastavniku.defaultProps = {
     nastavnikId: 0,
 }
 
-export default DodajZvanjeNastavniku;
+export default DodajTituluNastavniku;

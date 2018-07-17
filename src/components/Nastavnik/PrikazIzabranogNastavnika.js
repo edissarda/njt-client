@@ -7,6 +7,7 @@ import { createIcon } from '../common/icons';
 import TooltipButton from './../common/TooltipButton'
 import DodajZvanjeNastavniku from './DodajZvanjeNastavniku'
 import CloseButton from './../common/CloseButton'
+import DodajTituluNastavniku from './DodajTituluNastavniku';
 
 const uri = 'nastavnik/';
 
@@ -18,6 +19,7 @@ class PrikazIzabranogNastavnika extends Component {
         hasError: false,
 
         prikaziDijalogDodajZvanje: false,
+        prikaziDijalogDodajTitulu: false,
     }
 
     componentDidMount() {
@@ -169,6 +171,36 @@ class PrikazIzabranogNastavnika extends Component {
         );
     }
 
+    renderDijalogDodajTitulu = () => {
+        if (this.state.nastavnik === null) {
+            return null;
+        }
+
+        return (
+            <Dialog
+                open={this.state.prikaziDijalogDodajTitulu}
+                onClose={() => {
+                    this.setState({
+                        prikaziDijalogDodajTitulu: false,
+                    })
+                }}
+                maxWidth={false}
+                fullWidth
+            >
+                <div style={{ padding: '30px' }}>
+                    <DodajTituluNastavniku nastavnikId={this.state.nastavnik.id} />
+                </div>
+
+                <CloseButton onClick={() => {
+                    this.setState({
+                        prikaziDijalogDodajTitulu: false,
+                    })
+                }} />
+
+            </Dialog>
+        );
+    }
+
     render() {
 
         let content = null;
@@ -217,11 +249,21 @@ class PrikazIzabranogNastavnika extends Component {
 
 
                             <div className="col-6">
-                                <TooltipButton tooltip="Додај титулу наставнику">
+                                <TooltipButton
+                                    tooltip="Додај титулу наставнику"
+                                    onClick={() => {
+                                        this.setState({
+                                            prikaziDijalogDodajTitulu: true,
+                                        })
+                                    }}>
                                     {createIcon}
                                 </TooltipButton>
                                 {
                                     this.renderTutuleNastavnika()
+                                }
+
+                                {
+                                    this.renderDijalogDodajTitulu()
                                 }
                             </div>
 
