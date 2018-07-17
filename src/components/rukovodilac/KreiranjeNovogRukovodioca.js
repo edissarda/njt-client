@@ -110,7 +110,7 @@ class KreiranjeNovogRukovodioca extends Component {
     }
 
     showMessage = (msg, severity = 'success', detail = null) => {
-        this.growl.show({ severity: severity, summary: msg, detail: detail, life: 10000 });
+        this.growl.show({ severity: severity, summary: msg, detail: detail, life: 8000 });
     }
 
     renderPodatkeONastavniku = () => {

@@ -22,8 +22,11 @@ class Navigacija extends Component {
                             </div>
                         </li>
 
-                        <li className="nav-item">
-                            <NavLink to="/nastavnik" className="nav-link">Наставници</NavLink>
+                        <li className="nav-item dropdown">
+                            <NavLink className="nav-link dropdown-toggle" data-toggle="dropdown" to="#">Наставник</NavLink>
+                            <div className="dropdown-menu">
+                                <NavLink to="/nastavnik" className="nav-link dropdown-item">Приказ наставника</NavLink>
+                            </div>
                         </li>
 
                         <li className="nav-item dropdown">

@@ -27,6 +27,7 @@ TooltipButton.propTypes = {
 }
 
 TooltipButton.defaultProps = {
+    onClick: () => { },
     variant: 'text',
     tooltip: '',
     mini: false,

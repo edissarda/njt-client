@@ -42,11 +42,10 @@ function Sadrzaj() {
                         <Route path="/titula" exact component={PrikazSvihTitula} />
 
                         <Route path="/fakultet" exact component={PrikazSvihFakulteta} />
-                        <Route path="/nastavnik" exact component={PrikazSvihNastavnika} />
                         <Route path="/kreirajFakultet" exact component={KreirajNoviFakultet} />
+                        <Route path="/nastavnik" exact component={PrikazSvihNastavnika} />
                         <Route path="/dodajRukovodioca" exact component={KreiranjeNovogRukovodioca} />
                         <Route path="/kontakt" exact component={() => <div>Контакт страница</div>} />
-                        <Route path="/ghoa" component={Home} />
 
                         <Route render={() => <div className="col-6 col-offset-6"><h1>Грешка 404</h1></div>} />
                     </Switch>

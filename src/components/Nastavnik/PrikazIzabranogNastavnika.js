@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
-import { Paper, Table, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core'
+import { Paper, Table, TableHead, TableRow, TableCell, TableBody, Dialog } from '@material-ui/core'
 import axios from 'axios'
 import PropTypes from 'prop-types'
 import { loadingIcon } from '../common/loading';
+import { createIcon } from '../common/icons';
+import TooltipButton from './../common/TooltipButton'
+import DodajZvanjeNastavniku from './DodajZvanjeNastavniku'
+import CloseButton from './../common/CloseButton'
 
 const uri = 'nastavnik/';
 
@@ -12,6 +16,8 @@ class PrikazIzabranogNastavnika extends Component {
         nastavnik: null,
         loading: true,
         hasError: false,
+
+        prikaziDijalogDodajZvanje: false,
     }
 
     componentDidMount() {
@@ -133,6 +139,36 @@ class PrikazIzabranogNastavnika extends Component {
         );
     }
 
+    renderDijalogDodajZvanje = () => {
+        if (this.state.nastavnik === null) {
+            return null;
+        }
+
+        return (
+            <Dialog
+                open={this.state.prikaziDijalogDodajZvanje}
+                onClose={() => {
+                    this.setState({
+                        prikaziDijalogDodajZvanje: false,
+                    })
+                }}
+                maxWidth={false}
+                fullWidth
+            >
+                <div style={{ padding: '30px' }}>
+                    <DodajZvanjeNastavniku nastavnikId={this.state.nastavnik.id} />
+                </div>
+
+                <CloseButton onClick={() => {
+                    this.setState({
+                        prikaziDijalogDodajZvanje: false,
+                    })
+                }} />
+
+            </Dialog>
+        );
+    }
+
     render() {
 
         let content = null;
@@ -160,13 +196,30 @@ class PrikazIzabranogNastavnika extends Component {
                         <div className="row">
 
                             <div className="col-6">
+                                <TooltipButton
+                                    tooltip="Додај звање наставнику"
+                                    onClick={() => {
+                                        this.setState({
+                                            prikaziDijalogDodajZvanje: true,
+                                        })
+                                    }}
+                                >
+                                    {createIcon}
+                                </TooltipButton>
                                 {
                                     this.renderZvanjaNastavnika()
+                                }
+
+                                {
+                                    this.renderDijalogDodajZvanje()
                                 }
                             </div>
 
 
                             <div className="col-6">
+                                <TooltipButton tooltip="Додај титулу наставнику">
+                                    {createIcon}
+                                </TooltipButton>
                                 {
                                     this.renderTutuleNastavnika()
                                 }
