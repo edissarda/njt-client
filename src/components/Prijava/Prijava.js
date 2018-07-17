@@ -40,25 +40,35 @@ class Prijava extends Component {
         }
 
         return (
-            <form onSubmit={this.login}>
-                <TextField
-                    label="Корисничко име"
-                    id="username"
-                    fullWidth
-                    autoComplete="off"
-                />
+            <div className="row">
+                <div className="col-4">
+                </div>
 
-                <TextField
-                    type="password"
-                    label="Шифра"
-                    id="password"
-                    fullWidth
-                />
+                <div className="col-4">
+                    <form onSubmit={this.login}>
+                        <TextField
+                            label="Корисничко име"
+                            id="username"
+                            fullWidth
+                            autoComplete="off"
+                        />
 
-                <Button type="submit" variant="contained" style={{ marginTop: '30px' }}>
-                    Пријави се
-                </Button>
-            </form>
+                        <TextField
+                            type="password"
+                            label="Шифра"
+                            id="password"
+                            fullWidth
+                        />
+
+                        <Button type="submit" variant="contained" style={{ marginTop: '30px' }}>
+                            Пријави се
+                        </Button>
+                    </form>
+                </div>
+
+                <div className="col-4">
+                </div>
+            </div>
         );
     }
 

@@ -31,8 +31,6 @@ class PrikazIzabranogNastavnika extends Component {
             .then(resp => {
                 if (resp.data.status === 200) {
                     this.setNastavnik(resp.data.data);
-                    console.log(resp.data.data);
-
                 } else {
                     this.setError();
                 }
