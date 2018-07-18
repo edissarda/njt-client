@@ -5,6 +5,7 @@ import { Select, MenuItem, Paper, TextField, Table, TableBody, TableRow, TableCe
 import TooltipButton from '../common/TooltipButton';
 import { closeIcon } from '../common/icons';
 import { Growl } from 'primereact/components/growl/Growl';
+import WithAuth from '../hoc/WithAuth';
 
 class KreiranjeNovogRukovodioca extends Component {
 
@@ -597,10 +598,12 @@ class KreiranjeNovogRukovodioca extends Component {
             <div>
 
                 <h2 className="text-center">Постављање руководиоца факултета</h2>
+                
+                <WithAuth>
+                    {content}
+                </WithAuth>
 
-                {content}
-
-                <Growl ref={(el) => { this.growl = el }} /*style={{ position: 'absolute' }} position="bottomright"*/ />
+                <Growl ref={(el) => { this.growl = el }} />
 
             </div>
         );

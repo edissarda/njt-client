@@ -23,9 +23,9 @@ class NapraviZvanje extends Component {
     render() {
         return (
             <div className="col-12">
-                <WithAuth>
-                    <h4 className="text-center">Креирање новог звања</h4>
+                <h4 className="text-center">Креирање новог звања</h4>
 
+                <WithAuth>
                     <form method="POST" onSubmit={this.napraviZvanje}>
 
                         <TextField

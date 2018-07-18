@@ -4,6 +4,7 @@ import axios from 'axios'
 import PrikazIzabranogNastavnika from './PrikazIzabranogNastavnika';
 import { Select, MenuItem, Button } from '@material-ui/core';
 import { Growl } from 'primereact/components/growl/Growl'
+import WithAuth from '../hoc/WithAuth';
 
 class DodajTituluNastavniku extends Component {
     state = {
@@ -195,7 +196,9 @@ class DodajTituluNastavniku extends Component {
             <div>
                 <h2 className="text-center">Постави нову титулу наставнику</h2>
 
-                {content}
+                <WithAuth>
+                    {content}
+                </WithAuth>
 
                 <Growl ref={(e) => this.growl = e} />
 

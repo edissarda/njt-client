@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { TextField, Button } from '@material-ui/core'
 import axios from 'axios'
 import { Growl } from '../../../node_modules/primereact/components/growl/Growl';
+import WithAuth from '../hoc/WithAuth';
 
 const uri = 'nastavnik';
 
@@ -74,9 +75,12 @@ class KreirajNovogNastavnika extends Component {
         return (
             <div>
                 <h4 className="text-center">Креирање новог наставника</h4>
-                {
-                    this.renderContent()
-                }
+
+                <WithAuth>
+                    {
+                        this.renderContent()
+                    }
+                </WithAuth>
 
                 <Growl ref={(e) => this.growl = e} />
             </div>

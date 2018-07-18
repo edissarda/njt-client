@@ -10,6 +10,7 @@ import { Table, TableHead, TableRow, TableCell, TableBody, Paper, IconButton } f
 import { refreshIcon, createIcon } from '../common/icons';
 import DeleteIcon from '@material-ui/icons/Delete';
 import TooltipButton from '../common/TooltipButton';
+import WithAuth from './../hoc/WithAuth'
 
 const vrsteOrganizacijaUri = 'vrsta-organizacije';
 const pravneFormeUri = 'pravna-forma';
@@ -118,7 +119,7 @@ class KreirajNoviFakultet extends Component {
         } catch (error) {
             this.setError();
             console.log(error);
-            
+
         }
 
         this.setKrajUcitavanja();
@@ -600,7 +601,9 @@ class KreirajNoviFakultet extends Component {
 
                 <h2 className="text-center">Креирање новог факултета</h2>
 
-                {content}
+                <WithAuth>
+                    {content}
+                </WithAuth>
             </React.Fragment>
         );
     }

@@ -277,6 +277,8 @@ class ListaZvanja extends Component {
                     <div style={{ padding: '30px' }}>
                         <WithAuth>
                             <div>
+                                <h4 className="text-center">Брисање звања</h4>
+
                                 Да ли сте сигурни да желите да обришете изабрано звање?
 
                                 <div>
