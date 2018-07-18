@@ -53,6 +53,7 @@ class Prijava extends Component {
                             id="username"
                             fullWidth
                             autoComplete="off"
+                            autoFocus="on"
                         />
 
                         <TextField
