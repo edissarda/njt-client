@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from '@material-ui/core';
 import { TextField } from '../../../node_modules/@material-ui/core';
+import WithAuth from '../hoc/WithAuth';
 
 class IzmenaZvanja extends Component {
 
@@ -18,33 +19,35 @@ class IzmenaZvanja extends Component {
     render() {
         return (
             <React.Fragment>
-                <h4 className="text-center">Измена звања</h4>
+                <WithAuth>
+                    <h4 className="text-center">Измена звања</h4>
 
-                <form onSubmit={this.handleSubmit} style={{ marginTop: '30px' }}>
+                    <form onSubmit={this.handleSubmit} style={{ marginTop: '30px' }}>
 
-                    <TextField
-                        autoComplete="off"
-                        value={(this.props.zvanje === null) ? '' : this.props.zvanje.id}
-                        readOnly
-                        type="text"
-                        fullWidth
-                        label="ИД"
-                    />
+                        <TextField
+                            autoComplete="off"
+                            value={(this.props.zvanje === null) ? '' : this.props.zvanje.id}
+                            readOnly
+                            type="text"
+                            fullWidth
+                            label="ИД"
+                        />
 
-                    <TextField
-                        id="naziv"
-                        autoComplete="off"
-                        value={(this.props.zvanje === null) ? '' : this.props.zvanje.naziv}
-                        onChange={this.props.onNazivZvanjaChange}
-                        type="text"
-                        label="Назив"
-                        fullWidth
-                    />
+                        <TextField
+                            id="naziv"
+                            autoComplete="off"
+                            value={(this.props.zvanje === null) ? '' : this.props.zvanje.naziv}
+                            onChange={this.props.onNazivZvanjaChange}
+                            type="text"
+                            label="Назив"
+                            fullWidth
+                        />
 
-                    <Button type="submit" variant="contained" fullWidth style={{ marginTop: '10px' }}>
-                        Сачувај измене
+                        <Button type="submit" variant="contained" fullWidth style={{ marginTop: '10px' }}>
+                            Сачувај измене
                     </Button>
-                </form>
+                    </form>
+                </WithAuth>
             </React.Fragment>
         );
     }

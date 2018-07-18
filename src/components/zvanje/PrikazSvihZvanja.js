@@ -251,9 +251,7 @@ class ListaZvanja extends Component {
                     onClose={() => this.setState({ prikaziModalKreirajZvanje: false })}
                 >
                     <div style={{ padding: '30px' }}>
-                        <WithAuth>
-                            <NapraviZvanje napraviZvanje={this.napraviZvanje} />
-                        </WithAuth>
+                        <NapraviZvanje napraviZvanje={this.napraviZvanje} />
                     </div>
                 </Dialog>
 
@@ -262,13 +260,11 @@ class ListaZvanja extends Component {
                     onClose={() => this.setState({ prikaziModalIzmeniZvanje: false })}
                 >
                     <div style={{ padding: '30px' }}>
-                        <WithAuth>
-                            <IzmenaZvanja
-                                zvanje={this.state.selektovanoZvanje}
-                                onNazivZvanjaChange={this.nazivZvanjaChanged}
-                                azurirajZvanje={this.azurirajZvanje}
-                            />
-                        </WithAuth>
+                        <IzmenaZvanja
+                            zvanje={this.state.selektovanoZvanje}
+                            onNazivZvanjaChange={this.nazivZvanjaChanged}
+                            azurirajZvanje={this.azurirajZvanje}
+                        />
 
                         <CloseButton onClick={() => this.setState({ prikaziModalIzmeniZvanje: false })} />
                     </div>
