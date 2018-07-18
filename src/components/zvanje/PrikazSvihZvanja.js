@@ -3,7 +3,7 @@ import axios from 'axios';
 import NapraviZvanje from './NapraviZvanje';
 import { DataTable } from 'primereact/components/datatable/DataTable';
 import { Column } from 'primereact/components/column/Column';
-import { TextField } from '@material-ui/core';
+import { TextField, Button } from '@material-ui/core';
 import { Growl } from 'primereact/components/growl/Growl';
 import { Dialog } from '@material-ui/core';
 import { loadingIcon } from './../common/loading';
@@ -11,6 +11,7 @@ import { createIcon, editIcon, deleteIcon, refreshIcon, searchIcon } from './../
 import IzmenaZvanja from './IzmenaZvanja';
 import TooltipButton from '../common/TooltipButton';
 import CloseButton from '../common/CloseButton';
+import WithAuth from '../hoc/WithAuth';
 
 const uri = 'zvanje/';
 
@@ -21,6 +22,7 @@ class ListaZvanja extends Component {
         hasError: false,
         prikaziModalKreirajZvanje: false,
         prikaziModalIzmeniZvanje: false,
+        prikaziModalObrisiZvanje: false,
         selektovanoZvanje: null,
         pretragaFilter: null,
     }
@@ -109,6 +111,10 @@ class ListaZvanja extends Component {
         }).catch((error) => {
             this.showMessage(error.response.data.error, 'Грешка', 'error');
         });
+
+        this.setState({
+            prikaziModalObrisiZvanje: false,
+        });
     }
 
     otvoriIzmeniZvanjeModal = () => {
@@ -172,7 +178,14 @@ class ListaZvanja extends Component {
 
                     <TooltipButton
                         tooltip="Обриши звање"
-                        onClick={() => { this.obrisiZvanje() }}
+                        onClick={() => {
+                            if (this.state.selektovanoZvanje === null) {
+                                this.showMessage('Изаберите звање', null, 'warn');
+                                return false;
+                            }
+
+                            this.setState({ prikaziModalObrisiZvanje: true })
+                        }}
                     >
                         {deleteIcon}
                     </TooltipButton>
@@ -238,7 +251,9 @@ class ListaZvanja extends Component {
                     onClose={() => this.setState({ prikaziModalKreirajZvanje: false })}
                 >
                     <div style={{ padding: '30px' }}>
-                        <NapraviZvanje napraviZvanje={this.napraviZvanje} />
+                        <WithAuth>
+                            <NapraviZvanje napraviZvanje={this.napraviZvanje} />
+                        </WithAuth>
                     </div>
                 </Dialog>
 
@@ -247,13 +262,38 @@ class ListaZvanja extends Component {
                     onClose={() => this.setState({ prikaziModalIzmeniZvanje: false })}
                 >
                     <div style={{ padding: '30px' }}>
-                        <IzmenaZvanja
-                            zvanje={this.state.selektovanoZvanje}
-                            onNazivZvanjaChange={this.nazivZvanjaChanged}
-                            azurirajZvanje={this.azurirajZvanje}
-                        />
+                        <WithAuth>
+                            <IzmenaZvanja
+                                zvanje={this.state.selektovanoZvanje}
+                                onNazivZvanjaChange={this.nazivZvanjaChanged}
+                                azurirajZvanje={this.azurirajZvanje}
+                            />
+                        </WithAuth>
 
                         <CloseButton onClick={() => this.setState({ prikaziModalIzmeniZvanje: false })} />
+                    </div>
+                </Dialog>
+
+                <Dialog
+                    open={this.state.prikaziModalObrisiZvanje}
+                    onClose={() => this.setState({ prikaziModalObrisiZvanje: false })}
+                >
+                    <div style={{ padding: '30px' }}>
+                        <WithAuth>
+                            <div>
+                                Да ли сте сигурни да желите да обришете изабрано звање?
+
+                                <div>
+                                    <Button onClick={() => this.setState({ prikaziModalObrisiZvanje: false })}>
+                                        Не
+                                    </Button>
+
+                                    <Button onClick={this.obrisiZvanje} variant="text" color="secondary">
+                                        Да, обриши звање
+                                    </Button>
+                                </div>
+                            </div>
+                        </WithAuth>
                     </div>
                 </Dialog>
 
