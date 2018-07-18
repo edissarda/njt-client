@@ -39,7 +39,7 @@ function Sadrzaj() {
                         <Route path="/zvanje" exact component={PrikazSvihZvanja} />
                         <Route path="/tipRukovodioca" exact component={PrikazTipovaRukovodioca} />
                         <Route path="/vrstaOrganizacije" exact component={PrikazVrstaOrganizacija} />
-                        <Route path="/naucna-oblast" exact component={PrikazNaucnihOblasti} />
+                        <Route path="/naucnaOblast" exact component={PrikazNaucnihOblasti} />
                         <Route path="/titula" exact component={PrikazSvihTitula} />
 
                         <Route path="/fakultet" exact component={PrikazSvihFakulteta} />

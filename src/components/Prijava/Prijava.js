@@ -22,6 +22,8 @@ class Prijava extends Component {
             .then(resp => {
                 if (resp.data.status === 200) {
                     this.showMessage('Успешна пријава');
+                    this.props.onPrijavaSuccess(resp.data.data);
+                    this.props.history.push('/');
                 } else {
                     this.showMessage(resp.data.message, 'error');
                 }
@@ -36,7 +38,7 @@ class Prijava extends Component {
 
     renderForm = () => {
         if (this.props.admin != null) {
-            return "Пријављени сте као " + this.props.admin.ime;
+            return "Пријављени сте као " + this.props.admin.ime + ' ' + this.props.admin.prezime;
         }
 
         return (
@@ -92,4 +94,10 @@ const mapStateToProps = (state) => {
     };
 }
 
-export default connect(mapStateToProps)(Prijava);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onPrijavaSuccess: (admin) => dispatch({ type: 'LOGIN_SUCCESS', admin })
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Prijava);
