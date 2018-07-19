@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux'
 
 class Navigacija extends Component {
@@ -18,7 +18,6 @@ class Navigacija extends Component {
                 <NavLink className="nav-link dropdown-toggle" data-toggle="dropdown" to="#">{this.props.admin.ime} {this.props.admin.prezime}</NavLink>
                 <div className="dropdown-menu">
                     <NavLink to="/profil" className="nav-link dropdown-item">Профил</NavLink>
-                    <NavLink to="/logout" className="nav-link dropdown-item">Одјава</NavLink>
                 </div>
             </li>
         );
@@ -83,4 +82,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(Navigacija);
+export default withRouter(connect(mapStateToProps)(Navigacija));
