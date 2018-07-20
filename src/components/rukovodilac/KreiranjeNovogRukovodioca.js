@@ -597,7 +597,7 @@ class KreiranjeNovogRukovodioca extends Component {
         return (
             <div>
 
-                <h2 className="text-center">Постављање руководиоца факултета</h2>
+                <h2 className="text-center">Постави руководиоца факултета</h2>
                 
                 <WithAuth>
                     {content}
