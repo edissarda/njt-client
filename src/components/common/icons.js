@@ -11,3 +11,6 @@ export const viewIcon = (<i className="fa fa-eye fa-lg" aria-hidden="true"></i>)
 export const closeIcon = (<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z" /></svg>);
 
 export const searchIcon = ( <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg> );
+
+export const emailIcon = (<i className="fa fa-envelope-o fa-lg" aria-hidden="true"></i>);
+export const githubIcon = (<i className="fa fa-github fa-lg" aria-hidden="true"></i>);

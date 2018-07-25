@@ -11,11 +11,12 @@ import PrikazSvihTitula from '../Titula/PrikazSvihTitula';
 import KreiranjeNovogRukovodioca from '../rukovodilac/KreiranjeNovogRukovodioca';
 import PrikazSvihNastavnika from '../Nastavnik/PrikazSvihNastavnika';
 import Prijava from './../Prijava/Prijava'
+import Profil from '../Administrator/Profil';
+import Kontakt from '../Kontakt/Kontakt';
 
 import 'primereact/resources/themes/omega/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'font-awesome/css/font-awesome.css';
-import Profil from '../Administrator/Profil';
 
 class WebSite extends Component {
     render() {
@@ -47,7 +48,7 @@ function Sadrzaj() {
                         <Route path="/kreirajFakultet" exact component={KreirajNoviFakultet} />
                         <Route path="/nastavnik" exact component={PrikazSvihNastavnika} />
                         <Route path="/dodajRukovodioca" exact component={KreiranjeNovogRukovodioca} />
-                        <Route path="/kontakt" exact component={() => <div>Контакт страница</div>} />
+                        <Route path="/kontakt" exact component={Kontakt} />
 
                         <Route path="/login" exact component={Prijava} />
                         <Route path="/profil" exact component={Profil} />
