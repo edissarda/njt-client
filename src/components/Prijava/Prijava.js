@@ -42,7 +42,7 @@ class Prijava extends Component {
         }
 
         return (
-            <div className="row">
+            <div className="row" style={{marginTop: '30px'}}>
                 <div className="col-4">
                 </div>
 

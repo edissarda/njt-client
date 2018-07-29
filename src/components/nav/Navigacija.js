@@ -18,6 +18,11 @@ class Navigacija extends Component {
                 <NavLink className="nav-link dropdown-toggle" data-toggle="dropdown" to="#">{this.props.admin.ime} {this.props.admin.prezime}</NavLink>
                 <div className="dropdown-menu">
                     <NavLink to="/profil" className="nav-link dropdown-item">Профил</NavLink>
+                    <NavLink to="#" className="nav-link dropdown-item" onClick={(e) => {
+                        e.preventDefault();
+                        this.props.onLogout();
+                        window.location.href = '/';
+                    }}>Одјава</NavLink>
                 </div>
             </li>
         );
@@ -82,4 +87,10 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withRouter(connect(mapStateToProps)(Navigacija));
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onLogout: () => dispatch({ type: 'LOGOUT' })
+    }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Navigacija));

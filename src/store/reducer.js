@@ -1,6 +1,6 @@
 
 const initState = {
-    admin: null,
+    admin: JSON.parse(localStorage.getItem('user')),
 }
 
 export const rootReducer = (state = initState, action) => {
@@ -8,8 +8,18 @@ export const rootReducer = (state = initState, action) => {
         const admin = {
             ...action.admin
         }
+
+        localStorage.setItem('user', JSON.stringify(admin));
+
         return {
             admin: admin,
+        }
+    }
+
+    if (action.type === 'LOGOUT') {
+        localStorage.removeItem('user');
+        return {
+            admin: null
         }
     }
 
