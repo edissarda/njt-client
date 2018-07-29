@@ -31,7 +31,7 @@ class Profil extends Component {
                     {
                         this.state.poruke.map(poruka => {
                             return (
-                                <ExpansionPanel>
+                                <ExpansionPanel key={poruka.vreme}>
                                     <ExpansionPanelSummary>
                                         <div style={{ width: '100%' }}>
                                             <div className="pull-left" style={{ color: 'red' }}>{poruka.ime}</div>
