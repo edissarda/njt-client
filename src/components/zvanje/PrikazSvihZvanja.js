@@ -231,7 +231,7 @@ class ListaZvanja extends Component {
                             globalFilter={this.state.pretragaFilter}
                             header={this.getTableHeader()}
                         >
-                            <Column field="id" header="ИД" sortable style={{ width: '20%' }} />
+                            <Column field="id" header="ИД" sortable style={{ width: '5%' }} />
                             <Column field="naziv" header="Назив" sortable />
                         </DataTable>
                     </div>
