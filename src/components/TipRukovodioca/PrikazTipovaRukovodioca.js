@@ -198,6 +198,8 @@ class PrikazTipovaRukovodioca extends Component {
             content = (
                 <React.Fragment>
 
+                    <h2 className="text-center">{this.state.title}</h2>
+
                     <Dialog
                         open={this.state.prikaziModalKreirajTipRukovodioca}
                         onClose={() => this.setState({ prikaziModalKreirajTipRukovodioca: false })}
