@@ -3,7 +3,7 @@ import WebSite from '../website/Website';
 import { MemoryRouter } from 'react-router-dom';
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:8080/';
+axios.defaults.baseURL = 'http://localhost:9000/';
 
 class App extends Component {
 	render() {
